@@ -1,0 +1,1229 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Footprint-Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Bewusst nur dunkel, passend zur Trading-Plattform. Layout: kurze Lesestrecke (max. 1160px), Herzstück ist der Setup-Explorer: Chart links, Schritte rechts, Kerzen-Inspektor darunter */
+:root{
+  --bg:#0a0e13; --panel:#10161e; --panel-2:#18202b; --ink:#e6eaf0; --ink-2:#a0abbb; --ink-3:#6b7789;
+  --line:#222c39; --grid:#161e28;
+  --buy:#3cc193; --sell:#f07260; --accent:#f0ae47; --accept:#6ea5ff; --lvn:#a98dff; --zone:#8792a5;
+  --font-display:"Archivo","Arial Narrow","Helvetica Neue",Arial,sans-serif;
+  --font-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --font-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --r:10px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:15.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:32px 72px;display:grid;grid-template-columns:minmax(0,1fr);gap:64px}
+.wrap > *{min-width:0}
+h1,h2,h3{font-family:var(--font-display);font-stretch:80%;line-height:1.05;margin:0;text-wrap:balance}
+h1{font-size:clamp(44px,8vw,86px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(28px,4.2vw,42px);font-weight:750}
+h3{font-size:22px;font-weight:700;font-stretch:85%}
+p{margin:0}
+a{color:var(--accept)}
+.kicker{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.sec-head{display:grid;gap:8px;margin-bottom:20px;max-width:680px}
+.sec-head p:not(.kicker){color:var(--ink-2);font-size:16.5px}
+.subhead{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:4px 0 8px}
+
+/* Hero */
+.hero{display:grid;gap:18px}
+.lead{max-width:56ch;font-size:19px;color:var(--ink-2)}
+.route{list-style:none;margin:8px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.route li{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:4px;align-content:start}
+.route .n{font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+.route b{font-family:var(--font-display);font-stretch:85%;font-size:21px;font-weight:700;line-height:1.1}
+.route span:last-child{font-size:14px;color:var(--ink-2)}
+.route li.go{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.route li.go span:last-child,.route li.go .n{color:color-mix(in srgb,var(--bg) 70%,var(--ink))}
+.notrade{display:flex;gap:10px;align-items:baseline;font-size:15px;color:var(--ink-2)}
+.notrade b{font-family:var(--font-mono);font-size:12px;letter-spacing:.06em;color:var(--sell);border:1px solid color-mix(in srgb,var(--sell) 45%,transparent);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.toc{display:flex;flex-wrap:wrap;gap:8px}
+.toc a{font-size:14px;color:var(--ink);text-decoration:none;border:1px solid var(--line);background:var(--panel);padding:6px 12px;border-radius:999px}
+.toc a:hover{border-color:var(--ink-3)}
+
+/* Zeitebenen */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.tier{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:6px;align-content:start}
+.tier .tf{font-family:var(--font-mono);font-size:13px;color:var(--accent)}
+.tier b{font-family:var(--font-display);font-stretch:85%;font-size:24px;font-weight:700;line-height:1.1}
+.tier p{font-size:14.5px;color:var(--ink-2)}
+.tier:nth-child(3){border-color:color-mix(in srgb,var(--accent) 45%,var(--line))}
+.rule-line{margin-top:12px;font-size:15px;color:var(--ink-2)}
+
+/* Wörter */
+.word-groups{display:grid;gap:18px}
+.words{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px}
+.word{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px;display:grid;gap:6px;align-content:start}
+.word b{font-family:var(--font-display);font-stretch:85%;font-size:20px}
+.word p{font-size:14.5px;color:var(--ink-2)}
+
+/* Muster */
+.gallery{display:grid;grid-template-columns:240px minmax(0,1fr);gap:20px;align-items:start}
+.pat-list{display:grid;gap:4px}
+.pat-group{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);padding:10px 12px 4px}
+.pat-group:first-child{padding-top:0}
+.pat-btn{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;text-align:left;font:inherit;font-size:15px;color:var(--ink);background:transparent;border:1px solid transparent;border-radius:8px;padding:8px 12px;cursor:pointer}
+.pat-btn:hover{background:var(--panel)}
+.pat-btn[aria-selected="true"]{background:var(--panel);border-color:var(--line);font-weight:600}
+.pat-view{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:22px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:28px;min-width:0}
+.pat-fig{display:grid;gap:8px;justify-items:start;max-width:100%;overflow-x:auto;padding-bottom:2px}
+.fig-head{font-family:var(--font-mono);font-size:11.5px;color:var(--ink-3);letter-spacing:.05em}
+.ladders{position:relative;display:flex;gap:12px;align-items:start;padding-right:4px}
+.lcol{display:grid;grid-template-columns:6px 100px;column-gap:6px}
+.lbar{grid-column:1;border-radius:2px}
+.lbar.up{background:var(--buy)} .lbar.down{background:var(--sell)}
+.lc{grid-column:2;display:grid;grid-template-columns:1fr 1px 1fr;align-items:center;font-family:var(--font-mono);font-size:13px;font-variant-numeric:tabular-nums;border-bottom:1px solid var(--panel)}
+.lc .b{text-align:right;padding-right:7px}
+.lc .a{padding-left:7px}
+.lc .d{background:var(--ink-3);opacity:.45;height:60%}
+.lc.buy{background:color-mix(in srgb,var(--buy) var(--w),var(--panel))}
+.lc.sell{background:color-mix(in srgb,var(--sell) var(--w),var(--panel))}
+.lc.mk{outline:2px solid var(--accent);outline-offset:-2px;font-weight:600}
+.lc .mk{box-shadow:inset 0 0 0 2px var(--accent);border-radius:3px;font-weight:600}
+.lc .ref{outline:1.5px dashed var(--ink-3);outline-offset:-3px;border-radius:3px}
+.ldelta{grid-column:2;font-family:var(--font-mono);font-size:12px;text-align:center;padding-top:6px;color:var(--ink-2)}
+.llevel{position:absolute;left:0;right:0;height:0;border-top:2px dashed var(--ink);pointer-events:none}
+.llevel span{position:absolute;right:0;top:-19px;font-size:11px;font-family:var(--font-mono);background:var(--panel);padding:0 4px;color:var(--ink-2)}
+.heat{display:block;max-width:100%;height:auto}
+.pat-text{display:grid;gap:14px;min-width:0;align-content:start}
+.pat-text h3{font-size:30px}
+.see{font-size:17px}
+.see b{font-weight:600}
+.do{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.do > div{border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:4px}
+.tag{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase}
+.tag.long{color:var(--buy)} .tag.short{color:var(--sell)}
+.note{font-size:14px;color:var(--ink-2)}
+.src{font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
+
+/* Explorer */
+.explorer{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:16px}
+.ex-bar{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between;align-items:center}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tab{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:7px 12px;cursor:pointer;display:flex;gap:8px;align-items:baseline}
+.tab .c{font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.tab[aria-selected="true"] .c{color:inherit;opacity:.7}
+.ex-ctrl{display:flex;gap:8px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;padding:2px;background:var(--bg)}
+.seg button{font:inherit;font-size:13.5px;border:0;background:transparent;color:var(--ink-2);padding:6px 12px;border-radius:6px;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--ink);box-shadow:0 0 0 1px var(--line);font-weight:600}
+#sideSeg button[data-v="long"][aria-pressed="true"]{color:var(--buy)}
+#sideSeg button[data-v="short"][aria-pressed="true"]{color:var(--sell)}
+.ex-main{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
+.ex-chart{min-width:0;display:grid;gap:8px;align-content:start}
+.chart-meta{display:flex;flex-wrap:wrap;gap:4px 14px;font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+.chart-meta .warn{color:var(--accent)}
+.chart-box{position:relative;height:clamp(380px,58vh,540px);border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--panel)}
+#chart{display:block;cursor:pointer;touch-action:manipulation}
+.chart-note{font-size:13px;color:var(--ink-3);min-height:1em}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;width:16px;height:10px;border-radius:2px}
+.ex-steps{display:grid;gap:14px;align-content:start;min-width:0}
+.stepper{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:4px}
+.stepper button{width:100%;font:inherit;font-family:var(--font-mono);font-size:13px;border:1px solid var(--line);background:var(--bg);color:var(--ink-2);border-radius:6px;padding:6px 0;cursor:pointer}
+.stepper button[aria-current="step"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.step-body{display:grid;gap:12px}
+.step-body .of{font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+.step-body h3{font-size:26px}
+.step-body .say{font-size:16.5px}
+.tip{display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:14.5px;color:var(--ink-2);background:var(--bg);border-radius:8px;padding:10px 12px}
+.tip b{font-family:var(--font-mono);font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--accent);padding-top:2px}
+.trade{border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.trade table{width:100%;border-collapse:collapse;font-size:14.5px}
+.trade td{padding:7px 12px;border-top:1px solid var(--line)}
+.trade tr:first-child td{border-top:0}
+.trade td:last-child{text-align:right;font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.trade .k{display:inline-flex;align-items:center;gap:8px}
+.trade .k i{width:12px;height:3px;border-radius:2px;display:inline-block}
+.trade .crv td{background:var(--bg)}
+.trade .crv.main td{font-weight:600}
+.trade-foot{font-size:12px;color:var(--ink-3)}
+.step-nav{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:8px 14px;cursor:pointer}
+.btn.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:disabled{opacity:.4;cursor:default}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.inspector{border-top:1px solid var(--line);padding-top:16px;display:grid;grid-template-columns:minmax(0,320px) minmax(0,1fr);gap:24px}
+.insp-head{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline}
+.insp-head h3{font-size:22px}
+.insp-head span{font-size:13.5px;color:var(--ink-3)}
+.ladder{border-collapse:collapse;font-family:var(--font-mono);font-size:13px;font-variant-numeric:tabular-nums;width:100%}
+.ladder th{font-weight:500;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);text-align:right;padding:4px 8px}
+.ladder td{padding:3px 8px;text-align:right;border-top:1px solid var(--grid)}
+.ladder td.px{color:var(--ink-3)}
+.ladder td.ib{color:var(--buy);font-weight:600}
+.ladder td.is{color:var(--sell);font-weight:600}
+.ladder td.z{box-shadow:inset 0 0 0 2px var(--accent);font-weight:600}
+.ladder tr.poc td{background:var(--panel-2)}
+.ladder td.vb{width:34%;text-align:left}
+.vbar{display:block;height:6px;border-radius:3px;background:var(--ink-3);opacity:.55}
+.reads{list-style:none;margin:0;padding:0;display:grid;gap:8px;align-content:start}
+.reads li{display:grid;grid-template-columns:86px 1fr;gap:10px;font-size:14.5px;align-items:start}
+.reads li.hd{font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.reads .lbl{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);padding-top:2px}
+.pill{font-family:var(--font-mono);font-size:11.5px;padding:1px 7px;border-radius:999px;border:1px solid var(--line);margin-right:6px;white-space:nowrap}
+.pill.good{color:var(--buy);border-color:color-mix(in srgb,var(--buy) 45%,transparent)}
+.pill.bad{color:var(--sell);border-color:color-mix(in srgb,var(--sell) 45%,transparent)}
+.pill.acc{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.summary{border-top:1px solid var(--line);padding-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px 24px;margin:0}
+.summary div{display:grid;gap:4px;align-content:start}
+.summary dt{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.summary dd{margin:0;font-size:14.5px}
+.grade{display:inline-block;font-family:var(--font-display);font-stretch:80%;font-weight:800;font-size:22px;line-height:1;margin-right:8px;vertical-align:-2px}
+.grade.ap{color:var(--buy)} .grade.a{color:var(--buy)} .grade.b{color:var(--accent)} .grade.no{color:var(--sell)}
+.against{color:var(--ink-2);font-size:13.5px}
+
+/* Check */
+.check{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:20px;align-items:start}
+.check-groups{display:grid;gap:14px}
+fieldset{border:1px solid var(--line);border-radius:var(--r);padding:10px 16px 12px;margin:0;background:var(--panel)}
+legend{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);padding:0 6px}
+.ck{display:flex;gap:10px;align-items:flex-start;padding:6px 0;font-size:15.5px;cursor:pointer}
+.ck input{width:19px;height:19px;margin-top:2px;accent-color:var(--accent);flex:none}
+.ck b{font-weight:600}
+.verdict{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px;display:grid;gap:10px}
+.verdict .v{font-family:var(--font-display);font-stretch:80%;font-size:48px;font-weight:800;line-height:1}
+.verdict[data-s="no"] .v{color:var(--sell)}
+.verdict[data-s="b"] .v{color:var(--accent)}
+.verdict[data-s="a"] .v,.verdict[data-s="ap"] .v{color:var(--buy)}
+.verdict .act{font-size:17px;font-weight:600}
+.verdict p{color:var(--ink-2);font-size:14.5px}
+.verdict ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:14px}
+.verdict .fine{font-size:12px;color:var(--ink-3)}
+.verdict .row{display:flex;gap:8px;flex-wrap:wrap}
+
+/* Regeln */
+.rules{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;counter-reset:r}
+.rules li{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;grid-template-columns:auto 1fr;gap:10px;font-size:15px;counter-increment:r}
+.rules li::before{content:counter(r);font-family:var(--font-mono);font-size:12px;color:var(--accent);padding-top:2px}
+
+/* Trade-Plan */
+.plan{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-content:start}
+.field{display:grid;gap:4px;min-width:0}
+.field.wide{grid-column:1/-1}
+.field label{font-size:13.5px;color:var(--ink-2)}
+.field input,.field select{font:inherit;font-family:var(--font-mono);font-size:15px;padding:8px 10px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink);width:100%;min-width:0}
+.field input[type="text"]{font-family:var(--font-body)}
+.out{display:grid;gap:10px;align-content:start;min-width:0}
+.big{font-family:var(--font-display);font-stretch:80%;font-size:60px;font-weight:800;line-height:1}
+.big small{font-size:20px;font-weight:600;color:var(--ink-2);margin-left:6px}
+.out dl{display:grid;grid-template-columns:1fr auto;gap:6px 16px;margin:0;font-size:14.5px}
+.out dt{color:var(--ink-2)}
+.out dd{margin:0;font-family:var(--font-mono);text-align:right;font-variant-numeric:tabular-nums}
+.warns{list-style:none;margin:0;padding:0;display:grid;gap:4px;font-size:14px;color:var(--sell)}
+.plan-text{grid-column:1/-1;display:grid;gap:8px}
+.plan-text pre{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px;font-family:var(--font-mono);font-size:13px;line-height:1.55;white-space:pre-wrap;overflow-x:auto;color:var(--ink)}
+.plan-text .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.copied{font-size:13px;color:var(--buy)}
+
+/* Spickzettel */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.tbl{border-collapse:collapse;width:100%;min-width:820px;font-size:14px}
+.tbl th,.tbl td{padding:10px 12px;text-align:left;vertical-align:top;border-top:1px solid var(--line)}
+.tbl thead th{border-top:0;font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);font-weight:500}
+.tbl td:first-child{font-weight:600;white-space:nowrap}
+footer{display:grid;gap:8px;font-size:13.5px;color:var(--ink-3);border-top:1px solid var(--line);padding-top:20px}
+
+@media (max-width:960px){
+  .gallery{grid-template-columns:1fr}
+  .pat-list{display:flex;flex-wrap:wrap;gap:6px}
+  .pat-group{width:100%;padding:6px 0 0}
+  .pat-btn{width:auto;border-color:var(--line);background:var(--panel)}
+  .ex-main{grid-template-columns:1fr}
+  .check{grid-template-columns:1fr}
+  .verdict{position:static}
+  .plan{grid-template-columns:1fr}
+  .inspector{grid-template-columns:1fr}
+  .summary{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .route{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rules{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:620px){
+  .pat-view{grid-template-columns:1fr;padding:16px}
+  .do{grid-template-columns:1fr}
+  .fields{grid-template-columns:1fr}
+  .summary{grid-template-columns:1fr}
+  .lcol{grid-template-columns:5px 86px}
+  .lc{font-size:12px}
+  .chart-box{height:400px}
+  .route,.tiers,.rules{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header class="hero">
+  <p class="kicker">ETH · Orderflow für Einsteiger · mit ATAS</p>
+  <h1>Footprint-Playbook</h1>
+  <p class="lead">Ein Footprint zeigt in jeder Kerze, wie viel wirklich gekauft und verkauft wurde. Jeder Trade folgt diesen vier Schritten:</p>
+  <ol class="route">
+    <li><span class="n">1</span><b>Struktur</b><span>Zeigt, wo du handeln könntest.</span></li>
+    <li><span class="n">2</span><b>Liquidität</b><span>Zeigt, wo der Markt reagieren könnte.</span></li>
+    <li><span class="n">3</span><b>Footprint</b><span>Zeigt, was wirklich gehandelt wird.</span></li>
+    <li class="go"><span class="n">4</span><b>Bestätigung</b><span>Entscheidet, ob und wann du einsteigst.</span></li>
+  </ol>
+  <p class="notrade"><b>NO TRADE</b><span>Fehlt einer der vier Punkte, wartest du. Abwarten ist auch eine Entscheidung.</span></p>
+  <nav class="toc" aria-label="Inhalt">
+    <a href="#zeit">Zeitebenen</a><a href="#woerter">Wörter</a><a href="#muster">Muster</a><a href="#setups">Setups üben</a><a href="#check">Bewerten</a><a href="#plan">Trade-Plan</a><a href="#spick">Spickzettel</a>
+  </nav>
+</header>
+
+<section id="zeit">
+  <div class="sec-head"><p class="kicker">Zuerst</p><h2>Von groß nach klein</h2></div>
+  <div class="tiers">
+    <div class="tier"><span class="tf">1D · 4H</span><b>Richtung</b><p>Trend oder Range? Große Zonen und alte Hochs und Tiefs markieren.</p></div>
+    <div class="tier"><span class="tf">1H · 15M</span><b>Zone</b><p>Die Handelszone eingrenzen: Liquidität, VWAP, Volume Profile.</p></div>
+    <div class="tier"><span class="tf">5M · 1M</span><b>Einstieg</b><p>Erst hier liest du den Footprint und setzt den Trigger.</p></div>
+  </div>
+  <p class="rule-line">Ein Einstieg auf 1M ohne Blick auf 4H ist Raten.</p>
+</section>
+
+<section id="woerter">
+  <div class="sec-head"><p class="kicker">Die Wörter</p><h2>11 Begriffe, mehr brauchst du nicht</h2></div>
+  <div class="word-groups">
+    <div><p class="subhead">Footprint · ausgeführter Handel</p><div class="words">
+      <div class="word"><b>Bid</b><p>Linke Zahl. So viel wurde aggressiv <strong>verkauft</strong>.</p></div>
+      <div class="word"><b>Ask</b><p>Rechte Zahl. So viel wurde aggressiv <strong>gekauft</strong>.</p></div>
+      <div class="word"><b>Delta</b><p>Ask minus Bid einer Kerze. Plus heißt: Käufer drücken.</p></div>
+      <div class="word"><b>CVD</b><p>Delta aufaddiert. Zeigt, wer über Stunden drückt.</p></div>
+    </div></div>
+    <div><p class="subhead">Volume Profile · wo gehandelt wurde</p><div class="words">
+      <div class="word"><b>POC</b><p>Preis mit dem meisten Umsatz. Der „faire“ Preis.</p></div>
+      <div class="word"><b>Value Area</b><p>Bereich mit rund 70 % des Umsatzes. Oberer Rand VAH, unterer VAL.</p></div>
+      <div class="word"><b>LVN</b><p>Preisbereich mit wenig Umsatz. Der Preis läuft dort schnell durch.</p></div>
+      <div class="word"><b>VWAP</b><p>Durchschnittspreis nach Umsatz. Eine Linie, auf die viele achten.</p></div>
+    </div></div>
+    <div><p class="subhead">Markt</p><div class="words">
+      <div class="word"><b>Liquidität</b><p>Wo viele Orders oder Stopps liegen. Der Preis läuft gern dorthin.</p></div>
+      <div class="word"><b>Akzeptanz</b><p>Hinter einem Level wird weiter viel gehandelt. Erst dann ist ein Ausbruch echt.</p></div>
+      <div class="word"><b>Sweep</b><p>Kurz über ein Hoch oder unter ein Tief, Stopps abholen, zurück.</p></div>
+    </div></div>
+  </div>
+</section>
+
+<section id="muster">
+  <div class="sec-head"><p class="kicker">Teil 1 · Lesen</p><h2>12 Muster</h2><p>Footprint zeigt, was gehandelt wurde. Die Heatmap zeigt nur, was im Orderbuch wartet. Klick ein Muster an.</p></div>
+  <div class="gallery">
+    <div class="pat-list" id="patList" role="tablist" aria-label="Muster"></div>
+    <div class="pat-view" id="patView" role="tabpanel"></div>
+  </div>
+</section>
+
+<section id="setups">
+  <div class="sec-head"><p class="kicker">Teil 2 · Üben</p><h2>Die Setups Schritt für Schritt</h2><p>Wähle ein Setup und klick dich mit „Weiter“ durch. Tipp auf eine Kerze, dann siehst du unten ihre Zahlen.</p></div>
+  <div class="explorer">
+    <div class="ex-bar">
+      <div class="tabs" id="setupTabs" role="tablist" aria-label="Setup"></div>
+      <div class="ex-ctrl">
+        <div class="seg" id="sideSeg" aria-label="Richtung"><button type="button" data-v="long">Long</button><button type="button" data-v="short">Short</button></div>
+        <div class="seg" id="viewSeg" aria-label="Ansicht"><button type="button" data-v="candles">Kerzen</button><button type="button" data-v="fp">Footprint</button></div>
+      </div>
+    </div>
+    <div class="ex-main">
+      <div class="ex-chart">
+        <div class="chart-meta" id="chartMeta"></div>
+        <div class="chart-box"><canvas id="chart" tabindex="0" role="img" aria-label="Chart"></canvas></div>
+        <p class="chart-note" id="chartNote"></p>
+        <div class="legend" id="legend"></div>
+      </div>
+      <aside class="ex-steps">
+        <ol class="stepper" id="stepper"></ol>
+        <div class="step-body" id="stepBody" aria-live="polite"></div>
+        <div class="step-nav"><button type="button" class="btn" id="prevStep">Zurück</button><button type="button" class="btn primary" id="nextStep">Weiter</button></div>
+      </aside>
+    </div>
+    <div class="inspector" id="inspector"></div>
+    <dl class="summary" id="setupSummary"></dl>
+  </div>
+</section>
+
+<section id="check">
+  <div class="sec-head"><p class="kicker">Teil 3 · Bewerten</p><h2>A+, A, B oder NO TRADE?</h2><p>Hak ab, was zutrifft. Rechts steht die Note und was du tust.</p></div>
+  <div class="check">
+    <div class="check-groups" id="checkGroups"></div>
+    <div class="verdict" id="verdict" data-s="no" aria-live="polite">
+      <span class="kicker">Setup-Qualität</span>
+      <span class="v" id="vText">NO TRADE</span>
+      <span class="act" id="vAct"></span>
+      <p id="vWhy"></p>
+      <ul id="vMiss"></ul>
+      <div class="row"><button type="button" class="btn" id="ckToPlan">In den Trade-Plan</button><button type="button" class="btn" id="ckReset">Zurücksetzen</button></div>
+      <span class="fine">Halbes Risiko bei A ist eine Zusatzregel für Einsteiger. Die Note ist keine Gewinnwahrscheinlichkeit.</span>
+    </div>
+  </div>
+</section>
+
+<section id="regeln">
+  <div class="sec-head"><p class="kicker">Nie vergessen</p><h2>6 feste Regeln</h2></div>
+  <ol class="rules">
+    <li>Nichts erfinden. Kein Preis und kein Signal ohne echte, aktuelle Daten.</li>
+    <li>Ein Signal allein reicht nie. Mindestens zwei, die unabhängig voneinander passen.</li>
+    <li>Höchstens 0,5 % vom Konto pro Trade riskieren.</li>
+    <li>Der Stop kommt aus der Struktur, nicht aus dem Bauch.</li>
+    <li>Orderbuch ist nicht gleich Handel. Eine große Limit-Order ist keine sichere Wand.</li>
+    <li>Kurz vor Zinsentscheid, Inflations- oder Arbeitsmarktdaten: kein neuer Trade.</li>
+  </ol>
+</section>
+
+<section id="plan">
+  <div class="sec-head"><p class="kicker">Teil 4 · Planen</p><h2>Dein Trade-Plan</h2><p>Werte eintragen. Du bekommst die Größe, das CRV nach Gebühren und den fertigen Plan zum Kopieren.</p></div>
+  <div class="plan">
+    <div class="fields">
+      <div class="field"><label for="pEx">Börse</label><select id="pEx"><option>Binance</option><option>Bybit</option><option>Andere</option></select></div>
+      <div class="field"><label for="pSetup">Setup</label><select id="pSetup"><option value="#1 Sweep-Umkehr">#1 Sweep-Umkehr</option><option value="#2 Ausbruch + Retest">#2 Ausbruch + Retest</option><option value="#3 Absorption-Umkehr">#3 Absorption-Umkehr</option><option value="#4 Trend-Fortsetzung">#4 Trend-Fortsetzung</option><option value="#5 Range-Umkehr">#5 Range-Umkehr</option><option value="#6 Falle (Bull/Bear Trap)">#6 Falle (Bull/Bear Trap)</option></select></div>
+      <div class="field"><label for="acc">Konto (USD)</label><input id="acc" type="number" min="0" step="100" value="10000" inputmode="decimal"></div>
+      <div class="field"><label for="riskPct">Risiko pro Trade (%)</label><input id="riskPct" type="number" min="0.05" max="5" step="0.05" value="0.5" inputmode="decimal"></div>
+      <div class="field"><label for="entryPx">Einstieg (USD)</label><input id="entryPx" type="number" min="0" step="0.5" value="3800" inputmode="decimal"></div>
+      <div class="field"><label for="stopPx">Stop (USD)</label><input id="stopPx" type="number" min="0" step="0.5" value="3785" inputmode="decimal"></div>
+      <div class="field"><label for="tp1Px">TP1 (USD)</label><input id="tp1Px" type="number" min="0" step="0.5" value="3815" inputmode="decimal"></div>
+      <div class="field"><label for="tp2Px">TP2 (USD)</label><input id="tp2Px" type="number" min="0" step="0.5" value="3835" inputmode="decimal"></div>
+      <div class="field"><label for="feePct">Gebühr je Seite (%)</label><input id="feePct" type="number" min="0" step="0.005" value="0.05" inputmode="decimal"></div>
+      <div class="field"><label for="lev">Hebel</label><input id="lev" type="number" min="1" max="125" step="1" value="5" inputmode="numeric"></div>
+      <div class="field wide"><label for="pTrig">Trigger: was muss passieren?</label><input id="pTrig" type="text" placeholder="z. B. Rücksetzer hält über 3.795, Footprint zeigt 0 am Tief"></div>
+      <div class="field wide"><label for="pInv">Ungültig, wenn …</label><input id="pInv" type="text" placeholder="z. B. 5M-Schluss unter 3.790 mit Verkaufsdruck"></div>
+    </div>
+    <div class="out" aria-live="polite">
+      <span class="kicker" id="cDir">Long · du kaufst</span>
+      <div class="big" id="cOut">0<small>ETH</small></div>
+      <dl>
+        <dt>Max. Verlust inkl. Gebühren</dt><dd id="cRisk"></dd>
+        <dt>Positionswert</dt><dd id="cVal"></dd>
+        <dt>Margin bei diesem Hebel</dt><dd id="cMargin"></dd>
+        <dt>Liquidation, grob</dt><dd id="cLiq"></dd>
+        <dt>CRV TP1</dt><dd id="cR1"></dd>
+        <dt>CRV TP2</dt><dd id="cR2"></dd>
+      </dl>
+      <ul class="warns" id="cWarn"></ul>
+      <p class="trade-foot">Liquidation ohne Wartungsmarge gerechnet; die echte liegt etwas näher. In der Börse prüfen. Gebühr ist eine Annahme (Taker), Slippage kommt noch dazu.</p>
+    </div>
+    <div class="plan-text">
+      <div class="row"><span class="kicker">Fertiger Plan</span><button type="button" class="btn" id="copyPlan">Plan kopieren</button><span class="copied" id="copied" aria-live="polite"></span></div>
+      <pre id="planOut" tabindex="0"></pre>
+    </div>
+  </div>
+</section>
+
+<section id="spick">
+  <div class="sec-head"><p class="kicker">Auf einen Blick</p><h2>Spickzettel</h2><p>Long-Version. Short ist immer genau umgekehrt.</p></div>
+  <div class="tbl-wrap">
+    <table class="tbl">
+      <thead><tr><th>Setup</th><th>Wann</th><th>Trigger</th><th>Stop</th><th>Ziele</th><th>Ungültig, wenn</th></tr></thead>
+      <tbody>
+        <tr><td>#1 Sweep-Umkehr</td><td>Gleiche Tiefs, darunter Stopps</td><td>Sweep scheitert, Preis zurück in der Range, Rücksetzer hält</td><td>Unter dem Sweep-Tief</td><td>TP1 Range-Hoch, TP2 Liquidität</td><td>Umsatz unter dem Sweep</td></tr>
+        <tr><td>#2 Ausbruch + Retest</td><td>Trend, Range bricht mit Umsatz</td><td>Rücksetzer an die alte Zone hält</td><td>Unter der alten Zone</td><td>TP1 erste Reaktion, TP2 Liquidität</td><td>Preis zurück in der Range</td></tr>
+        <tr><td>#3 Absorption-Umkehr</td><td>Zone erreicht, viel Verkauf ohne Fortschritt</td><td>Bruch des letzten Zwischenhochs mit Umsatz</td><td>Unter dem Extrem</td><td>TP1 1R, TP2 Start der Bewegung</td><td>Neues Tief mit viel Verkauf</td></tr>
+        <tr><td>#4 Trend-Fortsetzung</td><td>Trend intakt, Rücksetzer an LVN, VWAP oder POC</td><td>Gegenbewegung müde, neue Initiative</td><td>Unter dem Rücksetzer</td><td>TP1 Impuls-Hoch, TP2 darüber</td><td>Umsatz unter der Zone</td></tr>
+        <tr><td>#5 Range-Umkehr</td><td>Klare Range, keine Akzeptanz außerhalb</td><td>Reaktion an der Kante</td><td>Knapp unter der Range</td><td>TP1 Mitte (POC), TP2 andere Kante</td><td>Umsatz unter der Range</td></tr>
+        <tr><td>#6 Falle (Bear Trap)</td><td>Ausbruch nach unten ohne Folge</td><td>Rückfall in die alte Struktur, Verkäufer gefangen</td><td>Unter dem Fehlausbruch</td><td>wie #1</td><td>Neue Tiefs mit Akzeptanz</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <p>Grundlage: <a href="https://www.youtube.com/watch?v=NAomTajbqX0" target="_blank" rel="noopener">„DIESES Tool benutzt jeder Trading-Profi!“ von Tom Vorwald</a> (20.10.2026) und deine Projektanweisung „ETH Agent“. Die Setup-Nummern #1 bis #6 folgen der Anweisung.</p>
+  <p>Alle Charts sind Lehrbeispiele mit erfundenen Zahlen, keine echten ETH-Kurse. Ein Krypto-Footprint zeigt nur den Umsatz der Börse, deren Daten du lädst. Keine Anlageberatung. Gehebelter Handel kann zum Totalverlust führen; erst auf dem Papier üben.</p>
+</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+var ROOT=document.documentElement;
+function $(s){return document.querySelector(s);}
+function cssv(n){return getComputedStyle(ROOT).getPropertyValue(n).trim();}
+function pf(v){return v.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function dn(v,d){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:d==null?1:d});}
+function usd(v){return v.toLocaleString('de-DE',{minimumFractionDigits:0,maximumFractionDigits:0})+' $';}
+function f2(v){return v.toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function sgn(d){return d>0?'+'+d:(d<0?'−'+Math.abs(d):'0');}
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+var FEE=0.0005;
+
+/* ================= Muster ================= */
+var PATTERNS=[
+ {g:'fp',name:'Fertiges Extrem',src:'Video, Zahlen aus dem S&P-Beispiel',
+  see:'Am Rand der Kerze steht auf einer Seite eine <b>0</b>.',
+  mean:'Dort will keiner mehr handeln. Der Markt muss da vermutlich nicht mehr hin.',
+  long:'0 am <b>Tief</b>: Boden wahrscheinlich.',short:'0 am <b>Hoch</b>: Top wahrscheinlich.',
+  note:'Gilt nur ganz oben oder ganz unten in der Kerze. Allein kein Einstieg.',
+  ladders:[{top:0,dir:'up',rows:[[0,33],[8,46],[19,46],[29,18],[40,69],[67,70],[27,18]],marks:[{row:0}]}]},
+ {g:'fp',name:'Offenes Extrem',src:'Video, Zahlen aus dem S&P-Beispiel',
+  see:'Am Rand stehen auf <b>beiden</b> Seiten Zahlen.',
+  mean:'Dort liegt noch Liquidität. Der Markt kommt gern dorthin zurück.',
+  long:'Offenes <b>Hoch</b>: Ziel liegt oben.',short:'Offenes <b>Tief</b>: Ziel liegt unten.',
+  note:'Vergleiche immer oben und unten. Eine Seite offen, andere fertig: klare Richtung.',
+  ladders:[{top:0,dir:'down',rows:[[34,79],[71,52],[83,86],[26,22],[20,28],[17,34],[58,44]],marks:[{row:6}]}]},
+ {g:'fp',name:'Akzeptanz',src:'Video, Zahlen beispielhaft',
+  see:'Nach dem Ausbruch stehen <b>hinter dem Level</b> große Zahlen, mehrere Kerzen lang.',
+  mean:'Der Markt nimmt die neuen Preise an. Der Ausbruch ist echt.',
+  long:'Viel Umsatz <b>über</b> dem Level: Long erlaubt.',short:'Viel Umsatz <b>unter</b> dem Level: Short erlaubt.',
+  note:'Kleine Zahlen nach dem Ausbruch: Falle möglich. Nicht einsteigen.',level:5,
+  ladders:[{top:5,dir:'up',rows:[[22,30],[41,38],[56,47],[38,29],[19,12]]},{top:1,dir:'up',rows:[[120,168],[146,190],[133,151],[88,97]],marks:'all'},{top:0,dir:'up',rows:[[98,121],[160,184],[141,139],[77,90]],marks:'all'}]},
+ {g:'fp',name:'Gefangene Trader',src:'Projektanweisung, Zahlen beispielhaft',
+  see:'Großer <b>Kauf über dem Level</b>, die nächste Kerze fällt zurück darunter.',
+  mean:'Die Ausbruchs-Käufer liegen im Minus. Ihre Stopps können den Preis weiter drücken.',
+  long:'Unten gefangene Verkäufer: Treibstoff nach oben.',short:'Oben gefangene Käufer: Treibstoff nach unten.',
+  note:'Gehört zu Setup #1 und #6. Erst handeln, wenn der Preis zurück in der alten Struktur ist.',level:3,
+  ladders:[{top:0,dir:'up',rows:[[12,95],[30,160],[41,138],[38,90],[45,52],[50,40]],marks:[{row:0,side:'ask'},{row:1,side:'ask'},{row:2,side:'ask'}]},{top:2,dir:'down',rows:[[60,35],[88,41],[120,52],[96,40],[70,30],[44,20]]}]},
+ {g:'fp',name:'Lücke ohne Umsatz',src:'Video, Zahlen beispielhaft',
+  see:'Mitten in einer großen Kerze stehen nur <b>winzige</b> Zahlen.',
+  mean:'Da ist der Markt durchgerauscht. Kommt er zurück, dreht er dort oft.',
+  long:'Kurs fällt in die Lücke und dreht: Long.',short:'Kurs steigt in die Lücke und dreht: Short.',
+  note:'Entsteht in der Lücke plötzlich viel Umsatz, ist sie keine Lücke mehr.',
+  ladders:[{top:0,dir:'up',rows:[[40,52],[61,75],[38,49],[3,6],[2,4],[1,5],[4,3],[44,58],[70,91],[52,60]],marks:[{row:3},{row:4},{row:5},{row:6}]}]},
+ {g:'fp',name:'Übergewicht (Imbalance)',src:'Projektanweisung, Zahlen beispielhaft',
+  see:'Rechte Zahl ist <b>deutlich größer</b> als die linke eine Zeile tiefer. Mehrere übereinander = Stapel.',
+  mean:'Käufer haben aggressiv nach oben gedrückt. Die Stelle hält beim Rücktest oft.',
+  long:'Grüne Stapel: Kommt der Kurs zurück, dort Long suchen.',short:'Rote Stapel: Kommt der Kurs zurück, dort Short suchen.',
+  note:'Startwert in ATAS: 300 %. Kleine Zahlen zählen nicht. Was klein ist, hängt vom normalen Umsatz ab.',
+  ladders:[{top:0,dir:'up',rows:[[22,30],[11,51],[14,47],[13,44],[12,25],[26,20]],marks:[{row:1,side:'ask'},{row:2,side:'ask'},{row:3,side:'ask'},{row:2,side:'bid',kind:'ref'},{row:3,side:'bid',kind:'ref'},{row:4,side:'bid',kind:'ref'}]}]},
+ {g:'fp',name:'Geschluckt (Absorption)',src:'Video, Zahlen beispielhaft',
+  see:'Riesige Zahlen am Rand, Delta stark im Plus, aber die Kerze <b>schließt rot</b>.',
+  mean:'Ein großer Gegenspieler hat alle Käufe geschluckt. Die Käufer verlieren vermutlich.',
+  long:'Viel Verkauf am Tief, Kerze grün: Käufer verteidigen.',short:'Viel Kauf am Hoch, Kerze rot: Verkäufer verteidigen.',
+  note:'Allein noch kein Einstieg. Erst den Strukturwechsel abwarten.',
+  ladders:[{top:0,dir:'down',rows:[[180,260],[140,210],[90,70],[60,40],[70,30]],marks:[{row:0},{row:1}]}]},
+ {g:'fp',name:'Läuft aus (Erschöpfung)',src:'Projektanweisung, Zahlen beispielhaft',
+  see:'Zum Rand hin werden die Zahlen <b>immer kleiner</b>: 80, 40, 15, 4, 1.',
+  mean:'Es kommen keine neuen Käufer mehr nach. Der Schwung lässt nach.',
+  long:'Am Tief: Verkäufer werden müde. Auf Dreh achten.',short:'Am Hoch: Käufer werden müde. Auf Dreh achten.',
+  note:'Ein einzelnes Erschöpfungs-Signal reicht nie für einen Einstieg.',
+  ladders:[{top:0,dir:'up',rows:[[0,1],[2,4],[6,15],[18,40],[44,71],[63,80],[51,49]],marks:[{row:0,side:'ask'},{row:1,side:'ask'},{row:2,side:'ask'},{row:3,side:'ask'}]}]},
+ {g:'fp',name:'Delta passt nicht',src:'Video, Zahlen beispielhaft',
+  see:'Der Preis fällt weiter, aber das <b>Delta wird besser</b> und dreht ins Plus.',
+  mean:'Der Fall hat weniger Kraft. Eine Umkehr wird wahrscheinlicher.',
+  long:'Tiefere Tiefs, Delta oder CVD steigt: Umkehr nach oben möglich.',short:'Höhere Hochs, Delta oder CVD fällt: Umkehr nach unten möglich.',
+  note:'Kann lange dauern. Erst einsteigen, wenn der Kurs wirklich dreht.',
+  ladders:[{top:0,dir:'down',rows:[[60,30],[95,40],[80,35],[50,20]]},{top:2,dir:'down',rows:[[55,40],[70,48],[62,45],[40,30]]},{top:4,dir:'down',rows:[[45,50],[52,56],[48,47],[30,36]]},{top:6,dir:'down',rows:[[36,52],[44,60],[40,58],[25,41]]}]},
+ {g:'heat',name:'Wand im Orderbuch',src:'Projektanweisung (ATAS-Heatmap), Bild schematisch',seed:7,wall:8,
+  path:[3,3.5,4,4.5,5,5.5,6,6.8,7.3,7.5,7.2,6.6,6,5.6,5.3,5],
+  liq:function(c,r,rnd){return r===8?0.95:0.06+0.22*rnd();},
+  see:'Ein heller Streifen: Dort warten viele <b>Limit-Orders</b>.',
+  mean:'Der Preis reagiert dort oft. Sicher ist das nicht: Orders können jederzeit verschwinden.',
+  long:'Wand unter dem Preis + Reaktion + Kauf im Footprint: Long-Zone.',short:'Wand über dem Preis + Ablehnung + Verkauf im Footprint: Short-Zone.',
+  note:'Orderbuch zeigt Absicht, Footprint zeigt Taten. Nie verwechseln.'},
+ {g:'heat',name:'Wand wird gezogen',src:'Projektanweisung (ATAS-Heatmap), Bild schematisch',seed:9,wall:8,
+  path:[3,3.5,4.2,4.8,5.4,6,6.5,7,7.4,7.6,8.4,9.2,9.8,10.3,10.6,10.8],
+  liq:function(c,r,rnd){return r===8?(c<=9?0.95:0.03):0.06+0.22*rnd();},
+  see:'Der Streifen <b>verschwindet</b>, kurz bevor der Preis ankommt.',
+  mean:'Die Unterstützung war nicht echt. Der Preis fällt oft hindurch.',
+  long:'Wand über dem Preis verschwindet: Weg nach oben frei.',short:'Wand unter dem Preis verschwindet: Weg nach unten frei.',
+  note:'Einmal ist kein Beweis für Manipulation. Nur zusammen mit der Preisreaktion werten.'},
+ {g:'heat',name:'Leere Zone',src:'Projektanweisung (ATAS-Heatmap), Bild schematisch',seed:13,
+  path:[9,8.8,8.5,8.2,8,7.6,5.8,4.2,3.6,3.3,3.2,3,3.1,2.9,3,2.8],
+  liq:function(c,r,rnd){return (r>=4&&r<=7)?0.02:0.18+0.4*rnd();},
+  see:'In einem Preisbereich liegen <b>kaum Limit-Orders</b>.',
+  mean:'Wenig Widerstand. Der Preis rauscht dort oft schnell durch.',
+  long:'Leere über dem Preis: schnelle Bewegung nach oben möglich.',short:'Leere unter dem Preis: schneller Fall möglich.',
+  note:'Den Stop nie mitten in eine leere Zone legen.'}
+];
+
+/* ================= Setups (Zeilen-Einheiten, Long-Version) ================= */
+var SETUPS=[
+{id:'sweep',num:'#1',name:'Sweep-Umkehr',tf:'M5',base:3760,row:3,seed:71,vol:420,open0:22,entryIdx:25,
+ closes:[21,19,20,17,15,13, 10,8,9,12,13,11,9,8,10,12,14,12,9,8, 9,11,12,10,9, 11,12,11,14,15,17,16,18,19,21,20],
+ clamps:[{i1:6,i2:19,lo:7,hi:14}],
+ over:{0:{h:23,tags:{liq:1}},1:{tags:{liq:1}},2:{h:22,tags:{liq:1}},
+  7:{l:7,tags:{uaBot:1}},13:{l:7,tags:{uaBot:1}},19:{l:7,tags:{uaBot:1}},10:{h:14},16:{h:14},
+  20:{o:8,l:5,h:9,tags:{absorbBot:1,faBot:1}},21:{l:7,tags:{push:1,stackBuy:[8,10]}},22:{tags:{accept:1}},23:{tags:{accept:1}},
+  24:{l:8,tags:{faBot:1}},33:{h:19}},
+ ab:function(i){return i<=5?-0.08:((i>=21&&i<=23)?0.15:(i>=25?0.05:0));},
+ trade:{entry:9,sl:4,tp1:14,tp2:20},
+ ov:{
+  range:{type:'zone',kind:'range',p1:7,p2:14,i1:6,i2:19,label:'Range'},
+  lows:{type:'zone',kind:'liq',p1:7,p2:7,i1:6,i2:20,label:'gleiche [[Tiefs|Hochs]] = Stopps'},
+  liqUp:{type:'zone',kind:'liq',p1:20,p2:23,i1:0,i2:35,label:'Liquidität'},
+  sweep:{type:'zone',kind:'note',p1:5,p2:6,i1:20,i2:20,label:'Sweep'},
+  reclaim:{type:'zone',kind:'accept',p1:9,p2:12,i1:21,i2:23,label:'zurück drin'}},
+ steps:[
+  {t:'Kontext und Liquidität',view:'candles',focus:13,show:['range','lows','liqUp'],
+   say:'Kontext 1H: Eine [[Abwärts|Aufwärts]]bewegung läuft in eine Range. Unter den gleichen [[Tiefs|Hochs]] liegen viele Stopps. Das ist Liquidität.',
+   tip:'Gleiche [[Tiefs|Hochs]] ziehen den Preis an wie ein Magnet.'},
+  {t:'Der Sweep',view:'fp',win:[15,25],focus:20,show:['lows','sweep'],marks:[{i:20,at:'rows',r1:6,r2:7,label:'geschluckt'},{i:20,at:'l',label:'0'}],
+   say:'Kerze 20 sticht [[unter die Tiefs|über die Hochs]]. Dort wird massiv [[verkauft|gekauft]], aber der Preis kommt nicht weiter. Am Rand steht eine 0.',
+   tip:'Viel Aggression, kein Fortschritt: Die [[Verkäufer|Käufer]] sitzen in der Falle.'},
+  {t:'Zurück in die Range',view:'fp',win:[17,27],focus:21,show:['range','reclaim'],marks:[{i:21,at:'rows',r1:8,r2:10,label:'Übergewicht'}],
+   say:'Kerze 20 schließt wieder in der Range. Danach [[kaufen|verkaufen]] die anderen aggressiv. Der Ausbruch nach [[unten|oben]] ist gescheitert.',
+   tip:'Ohne Rückkehr in die Range gibt es kein Setup.'},
+  {t:'Einsteigen',view:'candles',cut:1,focus:24,show:['range','lows','entry','sl','tp1','tp2','entryM'],marks:[{i:24,at:'l',label:'0'}],trade:true,
+   say:'Rücksetzer in Kerze 24, wieder mit 0 am [[Tief|Hoch]]. Rein bei Kerze 25. Stop hinter den Sweep.',
+   tip:'Der Stop gehört hinter das Sweep-[[Tief|Hoch]], nicht davor.'},
+  {t:'Trade führen',view:'candles',focus:'h2',show:['entry','sl','tp1','tp2','entryM','hit1','hit2','liqUp'],trade:true,
+   say:'TP1 an der anderen Range-Seite in Kerze {h1}: Hälfte raus, Stop auf Einstieg. TP2 an der Liquidität in Kerze {h2}.',
+   tip:'Raus, wenn der Preis wieder [[unter|über]] dem Sweep mit viel Umsatz handelt.'}],
+ quality:'A+',why:'Sweep, Absorption, Rückkehr und Übergewicht zeigen in dieselbe Richtung.',
+ against:'Gegen die kurzfristige [[Abwärts|Aufwärts]]bewegung gehandelt.',
+ summary:{ctx:'Range mit gleichen [[Tiefs|Hochs]]. Auch bekannt als [[Bear Trap|Bull Trap]] (#6).',trig:'Sweep scheitert, Preis zurück in der Range, Rücksetzer hält.',stop:'Hinter dem Sweep-[[Tief|Hoch]].',ziele:'TP1 andere Range-Seite, TP2 Liquidität.',inv:'Umsatz [[unter|über]] dem Sweep.'}},
+
+{id:'break',num:'#2',name:'Ausbruch + Retest',tf:'M5',base:3760,row:3,seed:11,vol:420,open0:18,entryIdx:36,
+ closes:[19,20,19,18,15,12,9,6,3, 2,5,7,4,1,3,6,8,5,2,1,4,7,6,3,2,5,7, 10,13,14, 15,13,14, 12,10,10, 12,13,15,14,16,18,19,18,20],
+ clamps:[{i1:9,i2:26,lo:0,hi:8}],
+ over:{0:{tags:{liq:1}},1:{h:21,tags:{liq:1,uaTop:1}},2:{tags:{liq:1}},3:{tags:{liq:1}},
+  11:{h:8,tags:{uaTop:1}},16:{h:8,tags:{uaTop:1}},21:{h:8,tags:{uaTop:1}},26:{h:8,tags:{uaTop:1}},
+  13:{l:0,tags:{faBot:1}},19:{l:0,tags:{faBot:1}},24:{l:0,tags:{faBot:1}},
+  27:{l:7,tags:{push:1}},28:{tags:{push:1,stackBuy:[11,13]}},29:{tags:{push:1}},
+  30:{h:16,tags:{accept:1}},31:{tags:{accept:1}},32:{l:12,tags:{accept:1}},
+  34:{l:10},35:{l:9,h:11,tags:{faBot:1}},41:{h:18},42:{h:20}},
+ ab:function(i){return (i>=27&&i<=32)?0.1:0;},
+ trade:{entry:10,sl:6,tp1:16,tp2:19},
+ ov:{
+  range:{type:'zone',kind:'range',p1:0,p2:8,i1:9,i2:26,label:'Range'},
+  liqHigh:{type:'zone',kind:'liq',p1:18,p2:21,i1:0,i2:44,label:'Liquidität'},
+  accept:{type:'zone',kind:'accept',p1:12,p2:16,i1:30,i2:32,label:'Akzeptanz'},
+  oldZone:{type:'zone',kind:'liq',p1:7,p2:9,i1:27,i2:44,label:'alte Zone'}},
+ steps:[
+  {t:'Kontext und Range',view:'candles',focus:16,show:['range','liqHigh'],
+   say:'Kontext 4H: [[Aufwärts|Abwärts]]trend. ETH macht eine Pause in einer Range. [[Oben|Unten]] links liegt Liquidität, dein späteres Ziel.',
+   tip:'Range-Linien an die Dochte legen, nicht an die Körper.'},
+  {t:'Ränder lesen',view:'fp',win:[9,26],focus:16,show:['range'],
+   marks:[{i:11,at:'h',label:'offen'},{i:16,at:'h',label:'offen'},{i:21,at:'h',label:'offen'},{i:26,at:'h',label:'offen'},{i:13,at:'l',label:'0'},{i:19,at:'l',label:'0'},{i:24,at:'l',label:'0'}],
+   say:'[[Oben|Unten]] stehen noch Zahlen auf beiden Seiten. [[Unten|Oben]] steht eine 0. Also geht es eher nach [[oben|unten]].',
+   tip:'Das ist nur die Richtung. Noch nicht einsteigen.'},
+  {t:'Warten auf Akzeptanz',view:'fp',win:[25,35],focus:30,show:['range','accept'],marks:[{i:28,at:'rows',r1:11,r2:13,label:'Übergewicht'}],
+   say:'Kerze 27 bricht aus. Nicht hinterherspringen. Erst in den Kerzen 30 bis 32 wird [[über|unter]] der Range viel gehandelt. Jetzt ist der Ausbruch echt.',
+   tip:'Auf 1H oder 4H funktioniert das genauso. Dann achtest du auf das CVD über den Tag.'},
+  {t:'Retest und Einstieg',view:'candles',cut:1,focus:35,show:['oldZone','accept','entry','sl','tp1','tp2','entryM'],marks:[{i:35,at:'l',label:'0'}],trade:true,
+   say:'Der Kurs kommt an die alte Zone zurück. Kerze 35 hat am [[Tief|Hoch]] eine 0. Rein bei Kerze 36.',
+   tip:'Stop hinter die alte Zone, nicht in die Zone.'},
+  {t:'Trade führen',view:'candles',focus:'h2',show:['oldZone','entry','sl','tp1','tp2','entryM','hit1','hit2','liqHigh'],trade:true,
+   say:'TP1 in Kerze {h1}: Hälfte raus, Stop auf Einstieg. TP2 an der Liquidität in Kerze {h2}.',
+   tip:'Raus, wenn der Preis zurück in die Range [[fällt|steigt]] und dort Umsatz aufbaut.'}],
+ quality:'A+',why:'Trend, Akzeptanz, Übergewicht und gehaltener Retest passen zusammen.',
+ against:'TP2 liegt an alter Liquidität. Dort kann der Markt drehen.',
+ summary:{ctx:'4H-Trend [[aufwärts|abwärts]], Range als Pause.',trig:'Ausbruch mit Akzeptanz, Retest der alten Zone hält.',stop:'[[Unter|Über]] der alten Zone.',ziele:'TP1 erste Reaktion, TP2 Liquidität.',inv:'Preis zurück in der Range mit Umsatz.'}},
+
+{id:'absorb',num:'#3',name:'Absorption-Umkehr',tf:'M5',base:3740,row:3,seed:53,vol:380,open0:36,entryIdx:28,
+ closes:[35,32,33,29,27,28,24,22,23,19,17,18,15,13,14,11,9,10,7,6,7, 9,8,11,13,15,14,13,14, 17,19,22,25,27,30,31,33,35],
+ clamps:[],
+ over:{0:{h:37},17:{h:12},20:{o:6,l:3,h:8,tags:{faBot:1,absorbBot:1}},23:{h:12},24:{tags:{accept:1}},25:{tags:{accept:1}},26:{tags:{accept:1}},27:{l:12,tags:{faBot:1}},36:{h:34}},
+ ab:function(i){return i<=12?-0.04:((i>=13&&i<=19)?0.22:((i>=21&&i<=27)?0.06:0));},
+ trade:{entry:13,sl:2,tp1:24,tp2:35},
+ ov:{
+  dnote:{type:'dnote',i1:13,i2:20,label:'Delta [[steigt|fällt]]'},
+  lows:{type:'zone',kind:'note',p1:3,p2:15,i1:13,i2:20,label:'Preis [[fällt|steigt]]'},
+  lastHigh:{type:'line',kind:'level',p:12,i1:17,label:'letztes Zwischen[[hoch|tief]]'},
+  accept:{type:'zone',kind:'accept',p1:12,p2:16,i1:24,i2:26,label:'Akzeptanz'},
+  start:{type:'zone',kind:'liq',p1:35,p2:37,i1:0,i2:37,label:'Start der Bewegung'}},
+ steps:[
+  {t:'Etwas stimmt nicht',view:'candles',focus:16,show:['lows','dnote','start'],
+   say:'Kontext 1H: ETH [[fällt|steigt]] in eine Tageszone. Der Preis [[fällt|steigt]] weiter, aber das Delta wird ab Kerze 13 [[besser|schlechter]].',
+   tip:'Eine Divergenz ist nur eine Warnung, kein Einstieg.'},
+  {t:'Absorption lesen',view:'fp',win:[15,25],focus:20,show:['lows'],marks:[{i:20,at:'l',label:'0'},{i:20,at:'rows',r1:4,r2:5,label:'geschluckt'}],
+   say:'Kerze 20: kurz vor dem [[Tief|Hoch]] wird massiv [[verkauft|gekauft]], aber die Kerze schließt [[grün|rot]]. Ganz am Rand eine 0.',
+   tip:'Viel gehandelt, aber kein Fortschritt: Jemand schluckt die Orders.'},
+  {t:'Strukturwechsel abwarten',view:'fp',win:[19,29],focus:24,show:['lastHigh','accept'],
+   say:'Erst wenn der Kurs das letzte Zwischen[[hoch|tief]] bricht und dort Umsatz aufbaut, hat die Struktur gedreht.',
+   tip:'Ohne diesen Bruch: Finger weg.'},
+  {t:'Einsteigen',view:'candles',cut:1,focus:27,show:['accept','entry','sl','tp1','tp2','entryM','start'],marks:[{i:27,at:'l',label:'0'}],trade:true,
+   say:'Rücksetzer in Kerze 27 mit 0 am [[Tief|Hoch]]. Rein bei Kerze 28. Stop hinter das Extrem.',
+   tip:'Der Stop ist weit. Deine Positionsgröße wird dadurch kleiner.'},
+  {t:'Trade führen',view:'candles',focus:'h2',show:['entry','sl','tp1','tp2','entryM','hit1','hit2','start'],trade:true,
+   say:'TP1 bei 1R in Kerze {h1}: Hälfte raus, Stop auf Einstieg. TP2 am Start der Bewegung in Kerze {h2}.',
+   tip:'Raus, wenn ein neues [[Tief|Hoch]] mit viel [[Verkauf|Kauf]] kommt.'}],
+ quality:'A',why:'Absorption, Divergenz und Strukturbruch passen zusammen.',
+ against:'Gegentrend: Der 1H-Trend zeigt noch nach [[unten|oben]].',
+ summary:{ctx:'1H-Trend [[abwärts|aufwärts]] erreicht eine Zone.',trig:'Absorption am Extrem, dann Bruch des letzten Zwischen[[hochs|tiefs]].',stop:'Hinter dem Extrem.',ziele:'TP1 1R, TP2 Start der Bewegung.',inv:'Neues Extrem mit viel Umsatz.'}},
+
+{id:'trend',num:'#4',name:'Trend-Fortsetzung',tf:'M5',base:3780,row:3,seed:23,vol:420,open0:1,entryIdx:22,
+ closes:[2,3,1,2,4,2,3,1,3, 8,15,19, 18,20,19,21,19, 17,14,12,13, 15, 16,18,20,22,21,23,25,24],
+ clamps:[{i1:0,i2:8,lo:0,hi:4}],
+ over:{0:{tags:{liq:1}},1:{tags:{liq:1}},2:{tags:{liq:1}},3:{tags:{liq:1}},4:{tags:{liq:1}},5:{tags:{liq:1}},6:{tags:{liq:1}},7:{tags:{liq:1}},8:{tags:{liq:1}},
+  9:{tags:{push:1,thin:[9,14]}},10:{tags:{push:1,thin:[9,14]}},11:{tags:{push:1,thin:[9,14]}},
+  12:{tags:{accept:1}},13:{tags:{accept:1}},14:{tags:{accept:1}},15:{tags:{accept:1}},16:{tags:{accept:1}},
+  18:{tags:{thin:[9,14]}},19:{l:11,tags:{faBot:1,thin:[9,14]}},20:{l:11,tags:{faBot:1,thin:[9,14]}},21:{l:12,tags:{push:1}},27:{h:23}},
+ ab:function(i){return (i>=9&&i<=11)?0.12:((i>=17&&i<=20)?-0.03:(i>=21?0.08:0));},
+ trade:{entry:15,sl:10,tp1:21,tp2:25},
+ ov:{
+  base:{type:'zone',kind:'liq',p1:0,p2:4,i1:0,i2:8,label:'Basis'},
+  accTop:{type:'zone',kind:'accept',p1:17,p2:21,i1:12,i2:16,label:'Akzeptanz'},
+  lvn:{type:'zone',kind:'lvn',p1:9,p2:14,i1:9,i2:29,label:'Lücke (LVN)'},
+  turn:{type:'zone',kind:'accept',p1:12,p2:15,i1:21,i2:21,label:'Initiative'}},
+ steps:[
+  {t:'Trend und Impuls',view:'candles',focus:10,show:['base','accTop'],
+   say:'Kontext 4H und 1H: [[Aufwärts|Abwärts]]trend intakt. Aus einer ruhigen Basis schießt der Kurs nach [[oben|unten]], danach wird dort viel gehandelt.',
+   tip:'Ohne Umsatz nach dem Impuls gibt es kein Setup.'},
+  {t:'Lücke finden',view:'fp',win:[7,17],focus:10,show:['lvn'],marks:[{i:10,at:'rows',r1:9,r2:14,label:'fast nichts'}],
+   say:'In der großen Kerze 10 stehen in der Mitte nur winzige Zahlen. Das ist die Lücke. Hier wartest du auf den Rücksetzer.',
+   tip:'Statt der Lücke geht auch der VWAP oder ein POC.'},
+  {t:'Gegenbewegung wird müde',view:'fp',win:[14,24],focus:20,show:['lvn'],marks:[{i:19,at:'l',label:'0'},{i:20,at:'l',label:'0'}],
+   say:'Der Kurs läuft zurück in die Lücke. Kerze 19 und 20 haben am [[Tief|Hoch]] eine 0. Der Rücksetzer verliert Kraft.',
+   tip:'Wenig Umsatz im Rücksetzer ist gut.'},
+  {t:'Einsteigen',view:'candles',cut:1,focus:21,show:['lvn','turn','entry','sl','tp1','tp2','entryM'],trade:true,
+   say:'Kerze 21 dreht mit neuer Initiative. Rein bei Kerze 22.',
+   tip:'Nicht in die [[fallende|steigende]] Kerze greifen. Den Dreh abwarten.'},
+  {t:'Trade führen',view:'candles',focus:'h2',show:['lvn','entry','sl','tp1','tp2','entryM','hit1','hit2'],trade:true,
+   say:'TP1 am Impuls-[[Hoch|Tief]] in Kerze {h1}: Hälfte raus, Stop auf Einstieg. TP2 in Kerze {h2}.',
+   tip:'Raus, wenn [[unter|über]] der Lücke viel gehandelt wird.'}],
+ quality:'A+',why:'Trend, Lücke, müder Rücksetzer und neue Initiative passen zusammen.',
+ against:'Der Trend ist schon gelaufen. Bis zum nächsten Widerstand bleibt weniger Platz.',
+ summary:{ctx:'4H/1H-Trend [[aufwärts|abwärts]] intakt.',trig:'Rücksetzer in Lücke, VWAP oder POC wird müde, neue Initiative.',stop:'[[Unter|Über]] dem Rücksetzer.',ziele:'TP1 Impuls-[[Hoch|Tief]], TP2 [[darüber|darunter]].',inv:'Umsatz [[unter|über]] der Lücke.'}},
+
+{id:'range',num:'#5',name:'Range-Umkehr',tf:'M5',base:3770,row:3,seed:31,vol:400,open0:8,entryIdx:24,
+ closes:[10,12,13,11,9,7,5,4,6,8,10,12,13,12,10,8,9,7,5,4,3,4,6,4, 6,7,8,9,11,12,13,12],
+ clamps:[{i1:0,i2:22,lo:2,hi:14}],
+ over:{2:{h:14},12:{h:14},7:{l:3},19:{l:3},
+  20:{l:2,tags:{thin:[2,3]}},21:{o:3,l:2,tags:{faBot:1,thin:[2,3]}},22:{tags:{push:1}},23:{l:4,tags:{faBot:1}},
+  9:{tags:{liq:1}},10:{tags:{liq:1}},15:{tags:{liq:1}},16:{tags:{liq:1}}},
+ ab:function(i){return (i>=17&&i<=20)?-0.05:((i>=21&&i<=23)?0.12:(i>=24?0.05:0));},
+ trade:{entry:4,sl:1,tp1:8,tp2:13},
+ ov:{
+  range:{type:'zone',kind:'range',p1:2,p2:14,i1:0,i2:31,label:'Range'},
+  mid:{type:'zone',kind:'liq',p1:7,p2:9,i1:0,i2:31,label:'Mitte (POC)'},
+  edge:{type:'zone',kind:'note',p1:2,p2:3,i1:19,i2:21,label:'kaum Umsatz'}},
+ steps:[
+  {t:'Range erkennen',view:'candles',focus:12,show:['range','mid'],
+   say:'Kontext 4H: kein klarer Trend. ETH pendelt zwischen zwei Kanten. Die Mitte (POC) ist der faire Preis.',
+   tip:'Range-Umkehr nur, wenn die Range klar zu sehen ist.'},
+  {t:'An die Kante',view:'fp',win:[14,24],focus:21,show:['range','edge'],marks:[{i:20,at:'rows',r1:2,r2:3,label:'kaum Umsatz'},{i:21,at:'l',label:'0'}],
+   say:'Der Preis erreicht die [[untere|obere]] Kante. Dort wird kaum gehandelt. Keine Akzeptanz außerhalb.',
+   tip:'Viel Umsatz außerhalb heißt Ausbruch. Dann kein Range-Trade.'},
+  {t:'Reaktion abwarten',view:'fp',win:[17,27],focus:22,show:['range'],marks:[{i:23,at:'l',label:'0'}],
+   say:'Kerze 22 dreht mit [[Kauf|Verkaufs]]-Initiative. Der Rücksetzer in Kerze 23 hat am [[Tief|Hoch]] eine 0.',
+   tip:'Erst die Reaktion, dann der Einstieg.'},
+  {t:'Einsteigen',view:'candles',cut:1,focus:23,show:['range','mid','entry','sl','tp1','tp2','entryM'],trade:true,
+   say:'Rein bei Kerze 24. Stop knapp [[unter|über]] der Range. TP1 an der Mitte, TP2 an der anderen Kante.',
+   tip:'Das Ziel liegt immer innerhalb der Range.'},
+  {t:'Trade führen',view:'candles',focus:'h2',show:['range','mid','entry','sl','tp1','tp2','entryM','hit1','hit2'],trade:true,
+   say:'TP1 an der Mitte in Kerze {h1}: Hälfte raus, Stop auf Einstieg. TP2 an der Kante in Kerze {h2}.',
+   tip:'Raus, wenn der Preis [[unter|über]] der Range Umsatz aufbaut.'}],
+ quality:'A',why:'Klare Range, keine Akzeptanz außerhalb, Reaktion mit Initiative.',
+ against:'Ranges brechen irgendwann. Jeder Test schwächt die Kante.',
+ summary:{ctx:'Klare Range auf 4H/1H, kein Trend.',trig:'Keine Akzeptanz außerhalb, Reaktion an der Kante.',stop:'Knapp [[unter|über]] der Range.',ziele:'TP1 Mitte (POC), TP2 andere Kante.',inv:'Umsatz [[unter|über]] der Range.'}}
+];
+
+/* ================= Daten bauen ================= */
+function imb(k,c){
+  var avg=k.vol/k.fp.length,be=null,ab=null;
+  for(var j=0;j<k.fp.length;j++){if(k.fp[j].r===c.r-1)be=k.fp[j];if(k.fp[j].r===c.r+1)ab=k.fp[j];}
+  return {buy:!!be&&c.ask>=3*Math.max(1,be.bid)&&c.ask>=0.3*avg,sell:!!ab&&c.bid>=3*Math.max(1,ab.ask)&&c.bid>=0.3*avg};
+}
+function buildCandles(def){
+  var rnd=mulberry32(def.seed);
+  function R(a,b){return a+rnd()*(b-a);}
+  function RI(a,b){return Math.floor(R(a,b+1));}
+  var cs=[],prev=def.open0;
+  def.closes.forEach(function(c,i){
+    var ov=def.over[i]||{};
+    var o=ov.o!=null?ov.o:prev;
+    var h=ov.h!=null?ov.h:Math.max(o,c)+(rnd()<0.55?1:0);
+    var l=ov.l!=null?ov.l:Math.min(o,c)-(rnd()<0.55?1:0);
+    (def.clamps||[]).forEach(function(k){if(i>=k.i1&&i<=k.i2){if(ov.h==null)h=Math.min(h,k.hi);if(ov.l==null)l=Math.max(l,k.lo);}});
+    h=Math.max(h,o,c);l=Math.min(l,o,c);
+    cs.push({o:o,h:h,l:l,c:c,tags:ov.tags||{},ab:def.ab?def.ab(i):0});
+    prev=c;
+  });
+  cs.forEach(function(k){
+    var tg=k.tags,mult=1;
+    if(tg.accept)mult*=2.3; if(tg.liq)mult*=1.8; if(tg.push)mult*=1.6;
+    var base=def.vol*mult*R(0.75,1.25);
+    var sd=Math.max(1,(k.h-k.l+1)/2.6);
+    var poc=Math.round((k.o+k.c)/2+R(-1,1));
+    var rows=[],W=0;
+    for(var r=k.l;r<=k.h;r++){var w=Math.exp(-((r-poc)*(r-poc))/(2*sd*sd))+0.12;if(r===k.h||r===k.l)w*=0.4;rows.push({r:r,w:w});W+=w;}
+    var dir=Math.sign(k.c-k.o);
+    rows.forEach(function(x){
+      var v=base*x.w/W;
+      if(tg.thin&&x.r>=tg.thin[0]&&x.r<=tg.thin[1])v*=0.05;
+      v=Math.max(1,Math.round(v));
+      var a=0.5+0.12*dir+k.ab+R(-0.1,0.1);a=Math.min(0.85,Math.max(0.15,a));
+      x.ask=Math.round(v*a);x.bid=v-x.ask;delete x.w;
+    });
+    var top=rows[rows.length-1],bot=rows[0];
+    function at(r){for(var j=0;j<rows.length;j++)if(rows[j].r===r)return rows[j];return null;}
+    if(tg.uaTop){top.bid=RI(28,64);top.ask=RI(28,64);}
+    if(tg.uaBot){bot.bid=RI(28,64);bot.ask=RI(28,64);}
+    if(tg.faTop){top.bid=0;top.ask=RI(3,18);}
+    if(tg.faBot){bot.ask=0;bot.bid=RI(3,18);}
+    if(tg.absorbBot){[k.l+1,k.l+2].forEach(function(r){var x=at(r);if(x){x.bid=RI(300,430);x.ask=RI(90,150);}});}
+    if(tg.stackBuy){
+      var avg=rows.reduce(function(s,x){return s+x.bid+x.ask;},0)/rows.length;
+      for(var r2=tg.stackBuy[0];r2<=tg.stackBuy[1];r2++){var x=at(r2),y=at(r2-1);if(x&&y){x.ask=Math.max(x.ask,Math.round(avg*0.9));y.bid=Math.min(y.bid,Math.floor(x.ask/4));}}
+    }
+    k.fp=rows;
+    k.vol=rows.reduce(function(s,x){return s+x.bid+x.ask;},0);
+    k.delta=rows.reduce(function(s,x){return s+x.ask-x.bid;},0);
+  });
+  var cum=0;cs.forEach(function(k){cum+=k.delta;k.cum=cum;});
+  return cs;
+}
+function mirror(cs,M){
+  return cs.map(function(k){return {o:M-k.o,c:M-k.c,h:M-k.l,l:M-k.h,fp:k.fp.map(function(x){return {r:M-x.r,bid:x.ask,ask:x.bid};}).reverse(),vol:k.vol,delta:-k.delta,cum:-k.cum};});
+}
+SETUPS.forEach(function(s){
+  var L=buildCandles(s),mn=Infinity,mx=-Infinity,t=s.trade,i;
+  L.forEach(function(k){mn=Math.min(mn,k.l);mx=Math.max(mx,k.h);});
+  s.M=mn+mx;
+  s.data={long:L,short:mirror(L,s.M)};
+  s.h1=s.h2=null;
+  for(i=s.entryIdx;i<L.length;i++){if(s.h1==null&&L[i].h>=t.tp1)s.h1=i;if(s.h2==null&&L[i].h>=t.tp2)s.h2=i;}
+  s.ov.entry={type:'line',kind:'entry',p:t.entry,i1:s.entryIdx,label:'Einstieg'};
+  s.ov.sl={type:'line',kind:'sl',p:t.sl,i1:s.entryIdx,label:'Stop'};
+  s.ov.tp1={type:'line',kind:'tp1',p:t.tp1,i1:s.entryIdx,label:'TP1'};
+  s.ov.tp2={type:'line',kind:'tp',p:t.tp2,i1:s.entryIdx,label:'TP2'};
+  s.ov.entryM={type:'marker',kind:'entry',i:s.entryIdx,p:t.entry};
+  s.ov.hit1={type:'marker',kind:'hit',i:s.h1,p:t.tp1,label:'TP1'};
+  s.ov.hit2={type:'marker',kind:'hit',i:s.h2,p:t.tp2,label:'TP2'};
+});
+
+/* ================= Hilfen ================= */
+var state={pat:0,setup:0,side:'long',view:'candles',step:0,sel:13,layout:null,quality:null};
+function SET(){return SETUPS[state.setup];}
+function price(s,r){return s.base+r*s.row;}
+function tx(str,s){
+  var side=state.side;
+  str=str.replace(/\[\[([^|\]]*)\|([^\]]*)\]\]/g,function(m,a,b){return side==='long'?a:b;});
+  if(s){str=str.replace(/\{h1\}/g,s.h1).replace(/\{h2\}/g,s.h2);}
+  return str;
+}
+function ov(s,id){
+  var o=s.ov[id];if(!o)return null;if(state.side==='long')return o;
+  var c={};for(var k in o)c[k]=o[k];
+  if('p' in o)c.p=s.M-o.p;
+  if('p1' in o){c.p1=s.M-o.p2;c.p2=s.M-o.p1;}
+  return c;
+}
+function markM(s,m){
+  if(state.side==='long')return m;
+  var c={};for(var k in m)c[k]=m[k];
+  if(m.at==='h')c.at='l';else if(m.at==='l')c.at='h';else{c.r1=s.M-m.r2;c.r2=s.M-m.r1;}
+  return c;
+}
+function tradeM(s){var t=s.trade;if(state.side==='long')return t;return {entry:s.M-t.entry,sl:s.M-t.sl,tp1:s.M-t.tp1,tp2:s.M-t.tp2};}
+function focusOf(s,st){return st.focus==='h2'?s.h2:st.focus;}
+function fpWindow(s,st,n){
+  var sel=state.sel,w=st.win;
+  if(w&&sel>=w[0]&&sel<=w[1])return w;
+  var a=Math.max(0,sel-5),b=Math.min(n-1,a+10);a=Math.max(0,b-10);return [a,b];
+}
+function rr(e,sl,tp){
+  var risk=Math.abs(e-sl),rew=Math.abs(tp-e);
+  var feeIn=FEE*(e+sl),feeOut=FEE*(e+tp);
+  return {g:rew/risk,n:(rew-feeOut)/(risk+feeIn)};
+}
+
+/* ================= Muster rendern ================= */
+function laddersHTML(p){
+  var nRows=0,maxV=0;
+  p.ladders.forEach(function(l){nRows=Math.max(nRows,l.top+l.rows.length);l.rows.forEach(function(c){maxV=Math.max(maxV,c[0]+c[1]);});});
+  var cols=p.ladders.map(function(l){
+    var h='<div class="lcol" style="grid-template-rows:repeat('+nRows+',var(--rh)) auto"><div class="lbar '+l.dir+'" style="grid-row:'+(l.top+1)+' / span '+l.rows.length+'"></div>';
+    l.rows.forEach(function(c,j){
+      var b=c[0],a=c[1],all=l.marks==='all',mk=(l.marks&&!all)?l.marks.filter(function(m){return m.row===j;}):[];
+      function has(side,ref){return mk.some(function(m){return (m.side||'both')===side&&(!!ref)===(m.kind==='ref');});}
+      var w=Math.round(8+38*(a+b)/maxV);
+      h+='<div class="lc '+(a>=b?'buy':'sell')+((all||has('both'))?' mk':'')+'" style="grid-row:'+(l.top+j+1)+';--w:'+w+'%">'+
+        '<span class="b'+(has('bid')?' mk':'')+(has('bid',1)?' ref':'')+'">'+b+'</span><span class="d"></span>'+
+        '<span class="a'+(has('ask')?' mk':'')+(has('ask',1)?' ref':'')+'">'+a+'</span></div>';
+    });
+    var d=l.rows.reduce(function(s,c){return s+c[1]-c[0];},0);
+    h+='<div class="ldelta" style="grid-row:'+(nRows+1)+'">Delta '+sgn(d)+'</div></div>';
+    return h;
+  }).join('');
+  var lvl=p.level!=null?'<div class="llevel" style="top:calc('+p.level+' * var(--rh))"><span>Level</span></div>':'';
+  return '<div class="ladders" style="--rh:26px">'+cols+lvl+'</div>';
+}
+function heatSVG(p){
+  var C=16,R=12,cs=14,ox=22,W=C*cs,H=R*cs,rnd=mulberry32(p.seed),cells='';
+  for(var r=0;r<R;r++)for(var c=0;c<C;c++){var v=p.liq(c,r,rnd);cells+='<rect x="'+(ox+c*cs)+'" y="'+(r*cs)+'" width="'+(cs-1)+'" height="'+(cs-1)+'" fill="var(--accent)" fill-opacity="'+(0.04+0.9*v).toFixed(2)+'"/>';}
+  var pts=p.path.map(function(y,c){return (ox+c*cs+cs/2)+','+(y*cs+cs/2);}).join(' ');
+  var lbl=p.wall!=null?'<text x="'+(ox+W+6)+'" y="'+(p.wall*cs+cs/2+4)+'" font-size="11" fill="var(--ink-2)" font-family="var(--font-mono)">Wand</text>':'';
+  return '<svg class="heat" viewBox="0 0 '+(ox+W+46)+' '+(H+22)+'" width="'+(ox+W+46)+'" role="img" aria-label="Heatmap-Beispiel: '+p.name+'">'+
+    cells+'<polyline points="'+pts+'" fill="none" stroke="var(--ink)" stroke-width="2.25" stroke-linejoin="round"/>'+lbl+
+    '<text x="'+(ox)+'" y="'+(H+16)+'" font-size="11" fill="var(--ink-3)" font-family="var(--font-mono)">Zeit →</text>'+
+    '<text x="12" y="'+(H/2)+'" font-size="11" fill="var(--ink-3)" font-family="var(--font-mono)" transform="rotate(-90 12 '+(H/2)+')" text-anchor="middle">Preis</text></svg>';
+}
+function renderPatterns(){
+  var last=null,h='';
+  PATTERNS.forEach(function(p,i){
+    if(p.g!==last){h+='<div class="pat-group">'+(p.g==='fp'?'Footprint · gehandelt':'Heatmap · Orderbuch')+'</div>';last=p.g;}
+    h+='<button type="button" class="pat-btn" role="tab" aria-selected="'+(i===state.pat)+'" data-i="'+i+'"><span>'+p.name+'</span></button>';
+  });
+  $('#patList').innerHTML=h;
+  var p=PATTERNS[state.pat];
+  var fig=p.g==='fp'?'<span class="fig-head">BID | ASK pro Preis</span>'+laddersHTML(p):'<span class="fig-head">HEATMAP · hell = viele Limit-Orders · Linie = Preis</span>'+heatSVG(p);
+  $('#patView').innerHTML=
+    '<div class="pat-fig">'+fig+'<span class="src">'+p.src+'</span></div>'+
+    '<div class="pat-text"><h3>'+p.name+'</h3>'+
+    '<p class="see">'+p.see+'</p><p class="note">'+p.mean+'</p>'+
+    '<div class="do"><div><span class="tag long">Long</span><p>'+p.long+'</p></div><div><span class="tag short">Short</span><p>'+p.short+'</p></div></div>'+
+    '<p class="note"><strong>Achtung:</strong> '+p.note+'</p></div>';
+}
+$('#patList').addEventListener('click',function(e){var b=e.target.closest('.pat-btn');if(!b)return;state.pat=+b.dataset.i;renderPatterns();});
+
+/* ================= Chart ================= */
+var G,C,F;
+function rrect(x,y,w,h,r){G.beginPath();if(G.roundRect)G.roundRect(x,y,w,h,r);else G.rect(x,y,w,h);}
+function pill(text,x,y,col,vb,ha,maxX){
+  G.save();G.font='600 11px '+F.body;
+  var w=G.measureText(text).width+10,h=17;
+  var x0=ha==='left'?x:(ha==='right'?x-w:x-w/2),y0=vb==='top'?y:y-h;
+  x0=Math.max(2,Math.min(x0,maxX-w-2));
+  G.globalAlpha=0.94;G.fillStyle=C.panel;rrect(x0,y0,w,h,4);G.fill();
+  G.globalAlpha=1;G.strokeStyle=col;G.lineWidth=1;rrect(x0+0.5,y0+0.5,w-1,h-1,4);G.stroke();
+  G.fillStyle=col;G.textAlign='left';G.textBaseline='middle';G.fillText(text,x0+5,y0+h/2+0.5);G.restore();
+}
+function axisTag(text,x,y,col,W){
+  G.save();G.font='600 10.5px '+F.mono;var h=16;
+  G.fillStyle=col;rrect(x+1,y-h/2,W-x-3,h,3);G.fill();
+  G.fillStyle=C.panel;G.textAlign='left';G.textBaseline='middle';G.fillText(text,x+5,y+0.5);G.restore();
+}
+function draw(){
+  var s=SET(),st=s.steps[state.step],cs=s.data[state.side];
+  var cv=$('#chart'),box=cv.parentElement,W=box.clientWidth,H=box.clientHeight;
+  if(!W||!H)return;
+  var dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);cv.style.width=W+'px';cv.style.height=H+'px';
+  G=cv.getContext('2d');G.setTransform(dpr,0,0,dpr,0,0);
+  C={panel:cssv('--panel'),p2:cssv('--panel-2'),ink:cssv('--ink'),ink2:cssv('--ink-2'),ink3:cssv('--ink-3'),line:cssv('--line'),grid:cssv('--grid'),buy:cssv('--buy'),sell:cssv('--sell'),acc:cssv('--accent'),accept:cssv('--accept'),lvn:cssv('--lvn'),zone:cssv('--zone')};
+  F={mono:cssv('--font-mono'),body:cssv('--font-body')};
+  G.fillStyle=C.panel;G.fillRect(0,0,W,H);
+  var fp=state.view==='fp';
+  var win=fp?fpWindow(s,st,cs.length):[0,cs.length-1],a=win[0],b=win[1],n=b-a+1,small=W<560;
+  var axisW=small?62:72,padL=6,top=10,labH=20,gap=12,deltaH=Math.max(70,Math.round(H*0.19));
+  var plotR=W-axisW,priceB=H-labH-deltaH-gap,cw=(plotR-padL)/n;
+  var shown=(st.show||[]).map(function(id){return ov(s,id);}).filter(Boolean);
+  var vis=(st.cut&&!fp)?Math.min(b,s.entryIdx-1):b;
+  var lo=Infinity,hi=-Infinity,i;
+  for(i=a;i<=vis;i++){lo=Math.min(lo,cs[i].l);hi=Math.max(hi,cs[i].h);}
+  shown.forEach(function(o){
+    if(o.type==='line'&&o.i1<=b){lo=Math.min(lo,o.p);hi=Math.max(hi,o.p);}
+    if(o.type==='marker'&&o.i>=a&&o.i<=b){lo=Math.min(lo,o.p);hi=Math.max(hi,o.p);}
+    if(o.type==='zone'&&!fp&&o.i1<=b&&o.i2>=a){lo=Math.min(lo,o.p1);hi=Math.max(hi,o.p2);}
+  });
+  var pad=fp?0.8:1.5;lo-=pad;hi+=pad;
+  var rowPx=(priceB-top)/(hi-lo);
+  function Y(r){return top+(hi-r)*rowPx;}
+  function X(j){return padL+(j-a+0.5)*cw;}
+  state.layout={a:a,b:b,vis:vis,cw:cw,padL:padL,plotR:plotR};
+
+  var gsList=[1,2,4,5,10,20,25,50,100],gs=100,q;
+  for(q=0;q<gsList.length;q++){if(gsList[q]*rowPx>=(small?30:36)){gs=gsList[q];break;}}
+  G.font=(small?10:11)+'px '+F.mono;G.textBaseline='middle';G.textAlign='left';
+  for(var r=Math.ceil(lo/gs)*gs;r<=hi;r+=gs){var gy=Math.round(Y(r))+0.5;G.strokeStyle=C.grid;G.lineWidth=1;G.beginPath();G.moveTo(padL,gy);G.lineTo(plotR,gy);G.stroke();G.fillStyle=C.ink3;G.fillText(String(price(s,r)),plotR+7,gy);}
+  G.strokeStyle=C.line;G.beginPath();G.moveTo(plotR+0.5,top);G.lineTo(plotR+0.5,H-labH);G.stroke();
+  if(state.sel>=a&&state.sel<=b){G.fillStyle=C.p2;G.fillRect(X(state.sel)-cw/2,top,cw,H-labH-top);}
+
+  G.save();G.beginPath();G.rect(0,top-2,plotR,priceB-top+4);G.clip();
+  var zlabels=[];
+  var zcol={liq:C.zone,accept:C.accept,lvn:C.lvn,range:C.ink2,note:C.ink3};
+  shown.filter(function(o){return o.type==='zone'&&o.i1<=b&&o.i2>=a;}).forEach(function(o){
+    var x1=Math.max(padL,X(Math.max(o.i1,a))-cw/2),x2=Math.min(plotR,X(Math.min(o.i2,b))+cw/2),y1=Y(o.p2+0.5),y2=Y(o.p1-0.5),col=zcol[o.kind];
+    G.save();
+    if(o.kind!=='range'){G.globalAlpha=o.kind==='note'?0.1:(o.kind==='liq'?0.16:0.18);G.fillStyle=col;G.fillRect(x1,y1,x2-x1,y2-y1);}
+    G.globalAlpha=0.85;G.strokeStyle=col;G.lineWidth=1.25;G.setLineDash(o.kind==='accept'?[]:[5,4]);G.strokeRect(x1+0.5,y1+0.5,x2-x1-1,y2-y1-1);G.restore();
+    if(o.label)zlabels.push([tx(o.label,s),x1+4,Math.max(top+2,y1+3),col]);
+  });
+  var maxCell=1;
+  if(fp){for(i=a;i<=b;i++)cs[i].fp.forEach(function(c){maxCell=Math.max(maxCell,c.bid+c.ask);});}
+  var cwI=cw*0.88,showTxt=fp&&cwI>=60&&rowPx>=13,edgeTxt=fp&&!showTxt&&cwI>=30&&rowPx>=11;
+  var fs=Math.min(12,Math.floor(rowPx*0.68));
+  for(i=a;i<=vis;i++){
+    var k=cs[i],x=X(i),col=k.c>k.o?C.buy:(k.c<k.o?C.sell:C.ink2);
+    if(!fp){
+      var bw=Math.max(1.5,cw*0.62);
+      G.strokeStyle=col;G.lineWidth=1;G.beginPath();G.moveTo(Math.round(x)+0.5,Y(k.h));G.lineTo(Math.round(x)+0.5,Y(k.l));G.stroke();
+      var yo=Y(k.o),yc=Y(k.c);G.fillStyle=col;G.fillRect(x-bw/2,Math.min(yo,yc),bw,Math.max(1.5,Math.abs(yc-yo)));
+    }else{
+      var x0=x-cwI/2,poc=k.fp.reduce(function(m,c){return (c.bid+c.ask)>(m.bid+m.ask)?c:m;});
+      k.fp.forEach(function(c,ci){
+        var yT=Y(c.r+0.5)+0.5,hg=Math.max(1,rowPx-1),v=c.bid+c.ask;
+        G.save();G.globalAlpha=0.07+0.33*Math.min(1,v/maxCell);G.fillStyle=c.ask>=c.bid?C.buy:C.sell;G.fillRect(x0,yT,cwI,hg);G.restore();
+        if(c===poc){G.strokeStyle=C.ink2;G.lineWidth=1;G.strokeRect(x0+0.5,yT+0.5,cwI-1,hg-1);}
+        var isEdge=ci===0||ci===k.fp.length-1;
+        if(showTxt){
+          var m=imb(k,c);
+          G.textBaseline='middle';
+          G.font=(m.sell?'600 ':'400 ')+fs+'px '+F.mono;G.fillStyle=m.sell?C.sell:C.ink;G.textAlign='right';G.fillText(c.bid,x-4,yT+hg/2);
+          G.font=(m.buy?'600 ':'400 ')+fs+'px '+F.mono;G.fillStyle=m.buy?C.buy:C.ink;G.textAlign='left';G.fillText(c.ask,x+4,yT+hg/2);
+          G.fillStyle=C.ink3;G.globalAlpha=0.5;G.fillRect(Math.round(x),yT+2,1,hg-4);G.globalAlpha=1;
+        }else if(edgeTxt&&isEdge){
+          G.font='500 10px '+F.mono;G.fillStyle=C.ink;G.textAlign='center';G.textBaseline='middle';G.fillText(c.bid+'|'+c.ask,x,yT+hg/2);
+        }
+      });
+      var yo2=Y(k.o),yc2=Y(k.c);G.fillStyle=col;G.fillRect(x0-3.5,Math.min(yo2,yc2),2.5,Math.max(2,Math.abs(yc2-yo2)));
+    }
+  }
+  if(vis<b){var fx=X(vis)+cw/2;G.save();G.globalAlpha=0.5;G.fillStyle=C.p2;G.fillRect(fx,top-2,plotR-fx,priceB-top+4);G.restore();}
+  var mlabels=[];
+  (st.marks||[]).map(function(m){return markM(s,m);}).forEach(function(m){
+    if(m.i<a||m.i>b)return;var k=cs[m.i],r1,r2;
+    if(m.at==='h'){r1=r2=k.h;}else if(m.at==='l'){r1=r2=k.l;}else{r1=m.r1;r2=m.r2;}
+    var x=X(m.i);G.strokeStyle=C.acc;G.lineWidth=2;
+    if(fp){G.strokeRect(x-cwI/2-1.5,Y(r2+0.5)-0.5,cwI+3,(r2-r1+1)*rowPx+1);}
+    else{G.beginPath();G.arc(x,Y((r1+r2)/2),Math.max(5,Math.min(9,cw*0.55)),0,Math.PI*2);G.stroke();}
+    if(m.label){if(m.at==='l')mlabels.push([m.label,x,Y(r1-0.5)+4,'top']);else mlabels.push([m.label,x,Y(r2+0.5)-4,'bottom']);}
+  });
+  var lcol={entry:C.acc,sl:C.sell,tp:C.buy,tp1:C.buy,level:C.ink2};
+  var lines=shown.filter(function(o){return o.type==='line'&&o.i1<=b;});
+  lines.forEach(function(o){
+    var col=lcol[o.kind],x1=Math.max(padL,X(o.i1)-cw/2),y=Math.round(Y(o.p))+0.5;
+    G.save();G.strokeStyle=col;G.lineWidth=o.kind==='entry'?2:1.5;G.setLineDash(o.kind==='entry'?[]:(o.kind==='level'||o.kind==='tp1'?[2,3]:[6,4]));
+    G.beginPath();G.moveTo(x1,y);G.lineTo(plotR,y);G.stroke();G.restore();
+  });
+  shown.filter(function(o){return o.type==='marker'&&o.i>=a&&o.i<=b;}).forEach(function(o){
+    var x=X(o.i),y=Y(o.p);
+    if(o.kind==='entry'){G.fillStyle=C.acc;G.beginPath();G.arc(x,y,6.5,0,Math.PI*2);G.fill();G.strokeStyle=C.panel;G.lineWidth=2;G.stroke();}
+    else{G.fillStyle=C.buy;G.beginPath();G.arc(x,y,8,0,Math.PI*2);G.fill();G.strokeStyle=C.panel;G.lineWidth=2;G.beginPath();G.moveTo(x-3.5,y);G.lineTo(x-1,y+3);G.lineTo(x+4,y-3);G.stroke();
+      if(o.label)mlabels.push([o.label+' erreicht',x,y+12,'top',C.buy]);}
+  });
+  G.restore();
+  zlabels.forEach(function(z){pill(z[0],z[1],z[2],z[3],'top','left',plotR);});
+  if(vis<b)pill('Zukunft: noch unbekannt',X(vis)+cw/2+6,priceB-4,C.ink3,'bottom','left',plotR);
+  mlabels.forEach(function(m){pill(m[0],m[1],m[2],m[4]||C.acc,m[3],'center',plotR);});
+  lines.forEach(function(o){var col=lcol[o.kind],y=Math.round(Y(o.p))+0.5;axisTag(pf(price(s,o.p)),plotR,y,col,W);pill(tx(o.label,s),plotR-6,y-3,col,'bottom','right',plotR);});
+
+  var dT=priceB+gap,dB=H-labH;
+  G.strokeStyle=C.line;G.beginPath();G.moveTo(0,dT-gap/2+0.5);G.lineTo(W,dT-gap/2+0.5);G.stroke();
+  var dl=[];
+  shown.filter(function(o){return o.type==='dnote'&&o.i1<=b&&o.i2>=a;}).forEach(function(o){
+    var x1=Math.max(padL,X(Math.max(o.i1,a))-cw/2),x2=Math.min(plotR,X(Math.min(o.i2,b))+cw/2);
+    G.save();G.globalAlpha=0.15;G.fillStyle=C.acc;G.fillRect(x1,dT,x2-x1,dB-dT);G.restore();dl.push([tx(o.label,s),x1+4,dT+3]);
+  });
+  var md=1;for(i=a;i<=vis;i++)md=Math.max(md,Math.abs(cs[i].delta));
+  var mid=(dT+dB)/2,half=(dB-dT)/2-6,dbw=Math.max(1.5,cw*0.55);
+  G.strokeStyle=C.ink3;G.globalAlpha=0.5;G.beginPath();G.moveTo(padL,Math.round(mid)+0.5);G.lineTo(plotR,Math.round(mid)+0.5);G.stroke();G.globalAlpha=1;
+  for(i=a;i<=vis;i++){var d=cs[i].delta,hh=d/md*half;G.fillStyle=d>=0?C.buy:C.sell;G.globalAlpha=0.7;G.fillRect(X(i)-dbw/2,d>=0?mid-hh:mid,dbw,Math.max(1,Math.abs(hh)));}
+  G.globalAlpha=1;
+  var mn=Infinity,mx=-Infinity;for(i=a;i<=vis;i++){mn=Math.min(mn,cs[i].cum);mx=Math.max(mx,cs[i].cum);}
+  var cy=function(v){return dB-5-(v-mn)/((mx-mn)||1)*(dB-dT-10);};
+  G.strokeStyle=C.ink;G.lineWidth=1.75;G.beginPath();
+  for(i=a;i<=vis;i++){if(i===a)G.moveTo(X(i),cy(cs[i].cum));else G.lineTo(X(i),cy(cs[i].cum));}
+  G.stroke();
+  pill('Linie: CVD',plotR-4,dT+2,C.ink,'top','right',plotR);
+  pill('Balken: Delta je Kerze',padL+2,dT+2,C.ink3,'top','left',plotR);
+  dl.forEach(function(z){pill(z[0],z[1],z[2]+20,C.acc,'top','left',plotR);});
+
+  var stp=10,ks=[1,2,5,10];for(q=0;q<ks.length;q++){if(ks[q]*cw>=24){stp=ks[q];break;}}
+  G.textAlign='center';G.textBaseline='middle';
+  for(i=a;i<=b;i++){if(i===state.sel&&i<=vis){G.font='600 11px '+F.mono;G.fillStyle=C.ink;G.fillText(i,X(i),H-labH/2);}else if(i%stp===0){G.font=(small?10:11)+'px '+F.mono;G.fillStyle=C.ink3;G.fillText(i,X(i),H-labH/2);}}
+  G.font='10px '+F.mono;G.fillStyle=C.ink3;G.textAlign='left';G.fillText('Kerze',plotR+7,H-labH/2);
+
+  var note='';
+  if(fp&&!showTxt)note='Zu eng für alle Zahlen. Tipp eine Kerze an: unten stehen ihre Zahlen.';
+  else if(!fp)note='Oben auf „Footprint“ schalten, dann siehst du die Zahlen in den Kerzen.';
+  $('#chartNote').textContent=note;
+  cv.setAttribute('aria-label',s.num+' '+s.name+', '+(state.side==='long'?'Long':'Short')+', Schritt '+(state.step+1)+': '+tx(st.t,s));
+}
+
+/* ================= Explorer UI ================= */
+function renderTabs(){
+  $('#setupTabs').innerHTML=SETUPS.map(function(s,i){
+    return '<button type="button" class="tab" role="tab" aria-selected="'+(i===state.setup)+'" data-i="'+i+'"><span class="c">'+s.num+'</span>'+s.name+'</button>';
+  }).join('');
+  [].forEach.call(document.querySelectorAll('#sideSeg button'),function(b){b.setAttribute('aria-pressed',b.dataset.v===state.side);});
+  [].forEach.call(document.querySelectorAll('#viewSeg button'),function(b){b.setAttribute('aria-pressed',b.dataset.v===state.view);});
+}
+function renderStepper(){
+  var s=SET();
+  $('#stepper').innerHTML=s.steps.map(function(st,i){return '<li><button type="button" data-i="'+i+'"'+(i===state.step?' aria-current="step"':'')+' aria-label="Schritt '+(i+1)+': '+tx(st.t,s)+'">'+(i+1)+'</button></li>';}).join('');
+  $('#prevStep').disabled=state.step===0;
+  $('#nextStep').textContent=state.step===s.steps.length-1?'Nächstes Setup':'Weiter';
+}
+function tradeHTML(s){
+  var T=tradeM(s),e=price(s,T.entry),sl=price(s,T.sl),t1=price(s,T.tp1),t2=price(s,T.tp2);
+  var r1=rr(e,sl,t1),r2=rr(e,sl,t2);
+  function dist(p){var d=Math.abs(p-e);return (p===sl?'−':'+')+dn(d,2)+' $';}
+  return '<div class="trade"><table>'+
+   '<tr><td><span class="k"><i style="background:var(--accent)"></i>Einstieg</span></td><td>'+pf(e)+'</td></tr>'+
+   '<tr><td><span class="k"><i style="background:var(--sell)"></i>Stop</span></td><td>'+pf(sl)+' ('+dist(sl)+')</td></tr>'+
+   '<tr><td><span class="k"><i style="background:var(--buy)"></i>TP1</span></td><td>'+pf(t1)+' ('+dist(t1)+')</td></tr>'+
+   '<tr><td><span class="k"><i style="background:var(--buy)"></i>TP2</span></td><td>'+pf(t2)+' ('+dist(t2)+')</td></tr>'+
+   '<tr class="crv"><td>CRV TP1</td><td>'+f2(r1.g)+' · netto '+f2(r1.n)+'</td></tr>'+
+   '<tr class="crv main"><td>CRV TP2</td><td>'+f2(r2.g)+' · netto '+f2(r2.n)+'</td></tr>'+
+   '</table></div><p class="trade-foot">Netto = nach 0,05 % Gebühr je Seite. Ein enger Stop macht Gebühren teuer.</p>'+
+   '<button type="button" class="btn" id="toPlan">In den Trade-Plan übernehmen</button>';
+}
+function renderStep(){
+  var s=SET(),st=s.steps[state.step];
+  var h='<span class="of">Schritt '+(state.step+1)+' von '+s.steps.length+'</span><h3>'+tx(st.t,s)+'</h3><p class="say">'+tx(st.say,s)+'</p>';
+  if(st.trade)h+=tradeHTML(s);
+  if(st.tip)h+='<div class="tip"><b>Tipp</b><span>'+tx(st.tip,s)+'</span></div>';
+  $('#stepBody').innerHTML=h;
+  var tp=$('#toPlan');
+  if(tp)tp.addEventListener('click',function(){
+    var T=tradeM(s);
+    $('#entryPx').value=price(s,T.entry);$('#stopPx').value=price(s,T.sl);$('#tp1Px').value=price(s,T.tp1);$('#tp2Px').value=price(s,T.tp2);
+    $('#pSetup').selectedIndex=state.setup;calc();
+    document.getElementById('plan').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  });
+}
+function renderMeta(){
+  var s=SET();
+  $('#chartMeta').innerHTML='<span>ETHUSDT · '+s.tf+'</span><span>'+(state.side==='long'?'Long':'Short')+'</span><span>1 Zeile = '+s.row+' $</span><span class="warn">Lehrbeispiel, keine echten Kurse</span>';
+  var items=[['var(--accent)','Einstieg'],['var(--sell)','Stop'],['var(--buy)','TP1 / TP2'],['color-mix(in srgb,var(--accept) 35%,transparent)','Akzeptanz'],['color-mix(in srgb,var(--zone) 35%,transparent)','Liquidität'],['color-mix(in srgb,var(--lvn) 35%,transparent)','Lücke']];
+  var h=items.map(function(x){return '<span><i style="background:'+x[0]+'"></i>'+x[1]+'</span>';}).join('');
+  if(state.view==='fp')h+='<span>Zahlen: links verkauft | rechts gekauft · Rahmen = meister Umsatz · fett = Übergewicht</span>';
+  $('#legend').innerHTML=h;
+}
+function renderInspector(){
+  var s=SET(),cs=s.data[state.side],i=state.sel,k=cs[i];
+  if(!k){$('#inspector').innerHTML='';return;}
+  var avg=cs.reduce(function(t,c){return t+c.vol;},0)/cs.length;
+  var rows=k.fp.slice().reverse(),topR=rows[0],botR=rows[rows.length-1];
+  var maxV=Math.max.apply(null,rows.map(function(r){return r.bid+r.ask;}));
+  var poc=rows.reduce(function(m,c){return (c.bid+c.ask)>(m.bid+m.ask)?c:m;});
+  var run=0,maxB=0,runS=0,maxS=0;k.fp.forEach(function(r){var m=imb(k,r);run=m.buy?run+1:0;maxB=Math.max(maxB,run);runS=m.sell?runS+1:0;maxS=Math.max(maxS,runS);});
+  var tbody=rows.map(function(r){
+    var m=imb(k,r),ext=(r===topR||r===botR);
+    return '<tr class="'+(r===poc?'poc':'')+'"><td class="px">'+pf(price(s,r.r))+'</td><td class="'+(m.sell?'is':'')+(ext&&r.bid===0?' z':'')+'">'+r.bid+'</td><td class="'+(m.buy?'ib':'')+(ext&&r.ask===0?' z':'')+'">'+r.ask+'</td><td class="vb"><span class="vbar" style="width:'+Math.max(3,Math.round(100*(r.bid+r.ask)/maxV))+'%"></span></td></tr>';
+  }).join('');
+  var cellAvg=k.vol/k.fp.length;
+  function aS(c){if(c.bid===0||c.ask===0)return ['eine Seite 0','acc','Auktion dort vermutlich fertig.'];if(c.bid+c.ask>=0.5*cellAvg)return ['beide Seiten','acc','Dort liegt vermutlich noch Liquidität.'];return ['wenig Handel','','Keine klare Aussage.'];}
+  var dRead;
+  if(k.delta>0&&k.c<k.o)dRead=['Plus, Kerze rot','bad','Käufe wurden vermutlich geschluckt.'];
+  else if(k.delta<0&&k.c>k.o)dRead=['Minus, Kerze grün','good','Verkäufe wurden vermutlich geschluckt.'];
+  else dRead=[sgn(k.delta),k.delta>=0?'good':'bad',k.delta>=0?'Käufer waren aggressiver.':'Verkäufer waren aggressiver.'];
+  var vr=k.vol/avg,vRead=vr>=1.5?[dn(vr)+'× Schnitt','acc','Viel Umsatz: wichtige Kerze.']:(vr<=0.6?[dn(vr)+'× Schnitt','','Wenig Umsatz: wenig Aussagekraft.']:[dn(vr)+'× Schnitt','','Normaler Umsatz.']);
+  var iRead=maxB>=3?[maxB+' grün gestapelt','good','Käufer drücken. Zone für den Rücktest.']:(maxS>=3?[maxS+' rot gestapelt','bad','Verkäufer drücken. Zone für den Rücktest.']:null);
+  function li(l,r){return '<li><span class="lbl">'+l+'</span><span><span class="pill '+r[1]+'">'+r[0]+'</span>'+r[2]+'</span></li>';}
+  $('#inspector').innerHTML=
+   '<div class="insp-head"><h3>Kerze '+i+'</h3><span>Eröffnung '+pf(price(s,k.o))+' · Schluss '+pf(price(s,k.c))+' · Umsatz '+k.vol.toLocaleString('de-DE')+'</span></div>'+
+   '<div><table class="ladder"><thead><tr><th>Preis</th><th>Bid</th><th>Ask</th><th></th></tr></thead><tbody>'+tbody+'</tbody></table></div>'+
+   '<ul class="reads"><li class="hd"><span></span><span>Gesehen → heißt vermutlich</span></li>'+li('Rand oben',aS(topR))+li('Rand unten',aS(botR))+li('Delta',dRead)+li('Umsatz',vRead)+(iRead?li('Druck',iRead):'')+'</ul>';
+}
+function gradeClass(q){return q==='A+'?'ap':(q==='A'?'a':(q==='B'?'b':'no'));}
+function renderSummary(){
+  var s=SET(),m=s.summary,keys=[['ctx','Kontext'],['trig','Trigger'],['stop','Stop'],['ziele','Ziele'],['inv','Ungültig, wenn']];
+  var h=keys.map(function(k){return '<div><dt>'+k[1]+'</dt><dd>'+tx(m[k[0]],s)+'</dd></div>';}).join('');
+  h+='<div><dt>Qualität</dt><dd><span class="grade '+gradeClass(s.quality)+'">'+s.quality+'</span>'+tx(s.why,s)+'<br><span class="against">Dagegen: '+tx(s.against,s)+'</span></dd></div>';
+  $('#setupSummary').innerHTML=h;
+}
+function renderExplorer(){renderTabs();renderStepper();renderStep();renderMeta();draw();renderInspector();renderSummary();}
+function setStep(i){
+  var s=SET();state.step=Math.max(0,Math.min(s.steps.length-1,i));
+  var st=s.steps[state.step];state.view=st.view;state.sel=focusOf(s,st);renderExplorer();
+}
+$('#setupTabs').addEventListener('click',function(e){var b=e.target.closest('.tab');if(!b)return;state.setup=+b.dataset.i;setStep(0);});
+$('#sideSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;state.side=b.dataset.v;renderExplorer();});
+$('#viewSeg').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;state.view=b.dataset.v;renderTabs();renderMeta();draw();});
+$('#stepper').addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;setStep(+b.dataset.i);});
+$('#prevStep').addEventListener('click',function(){setStep(state.step-1);});
+$('#nextStep').addEventListener('click',function(){var s=SET();if(state.step<s.steps.length-1)setStep(state.step+1);else{state.setup=(state.setup+1)%SETUPS.length;setStep(0);}});
+var cv=$('#chart');
+function pick(i){var L=state.layout;if(!L)return;i=Math.max(L.a,Math.min(L.vis,i));state.sel=i;draw();renderInspector();}
+cv.addEventListener('click',function(e){var L=state.layout;if(!L)return;var rc=cv.getBoundingClientRect(),x=e.clientX-rc.left;if(x<L.padL||x>L.plotR)return;pick(L.a+Math.floor((x-L.padL)/L.cw));});
+cv.addEventListener('keydown',function(e){if(e.key==='ArrowLeft'){pick(state.sel-1);e.preventDefault();}else if(e.key==='ArrowRight'){pick(state.sel+1);e.preventDefault();}});
+
+/* ================= Bewerten ================= */
+var CRIT=[['k1','Struktur','<b>Struktur:</b> 4H/1H passt zur Richtung oder hat klar gedreht.'],
+ ['k2','Zone','<b>Zone:</b> Ich bin an einer wichtigen Zone (Hoch, Tief, Range-Kante, POC, VWAP).'],
+ ['k3','Orderflow','<b>Orderflow:</b> Footprint, Delta oder CVD bestätigen meine Richtung.'],
+ ['k4','Reaktion','<b>Reaktion:</b> Der Preis reagiert an der Liquidität (Sweep, Akzeptanz oder Ablehnung).'],
+ ['k5','Einstieg','<b>Einstieg:</b> Trigger klar, Stop aus der Struktur, CRV mindestens 2 : 1.']];
+var AGAINST=[['g1','Delta oder CVD zeigen gegen mich.'],['g2','BTC läuft gerade gegen meine Richtung.'],['g3','Wichtige News bald (Zinsen, Inflation, Arbeitsmarkt).'],['g4','Funding oder Open Interest sind extrem.'],['g5','Wenig Umsatz (Wochenende, ruhige Nacht).']];
+function renderCheck(){
+  var h='<fieldset><legend>Die 5 Kriterien</legend>'+CRIT.map(function(c){return '<label class="ck" for="'+c[0]+'"><input type="checkbox" id="'+c[0]+'"><span>'+c[2]+'</span></label>';}).join('')+'</fieldset>';
+  h+='<fieldset><legend>Spricht dagegen</legend>'+AGAINST.map(function(c){return '<label class="ck" for="'+c[0]+'"><input type="checkbox" id="'+c[0]+'"><span>'+c[1]+'</span></label>';}).join('')+'</fieldset>';
+  h+='<fieldset><legend>Daten</legend><label class="ck" for="d1"><input type="checkbox" id="d1"><span>Meine Daten sind alt oder unsicher (z. B. nur ein alter Screenshot).</span></label></fieldset>';
+  $('#checkGroups').innerHTML=h;
+}
+function on(id){var e=document.getElementById(id);return !!(e&&e.checked);}
+function verdict(){
+  var miss=CRIT.filter(function(c){return !on(c[0]);}),ag=AGAINST.filter(function(c){return on(c[0]);}).length;
+  var score=(5-miss.length)-ag,q,act,why;
+  if(on('d1')){q='NO TRADE';act='Abwarten.';why='Ohne frische Daten keine Entscheidung.';}
+  else if(!on('k5')){q='NO TRADE';act='Abwarten.';why='Ohne klaren Einstieg und mindestens 2 : 1 gibt es keinen Trade.';}
+  else if(score>=5){q='A+';act='Rein mit normalem Risiko: 0,5 %.';why='Alle Kriterien erfüllt, nichts spricht dagegen.';}
+  else if(score===4){q='A';act='Rein mit halbem Risiko: 0,25 %.';why='Gute Konfluenz, eine Bestätigung fehlt oder etwas spricht dagegen.';}
+  else if(score===3){q='B';act='Beobachten, nicht handeln.';why='Interessant, aber die Bestätigung ist unvollständig.';}
+  else{q='NO TRADE';act='Abwarten.';why='Zu wenig Bestätigung oder zu viel dagegen.';}
+  state.quality=q;
+  state.touched=[].some.call(document.querySelectorAll('#checkGroups input'),function(x){return x.checked;});
+  var v=$('#verdict');v.dataset.s=gradeClass(q);
+  $('#vText').textContent=q;$('#vAct').textContent=act;$('#vWhy').textContent=why+(ag?' Dagegen: '+ag+' Punkt'+(ag>1?'e':'')+'.':'');
+  $('#vMiss').innerHTML=miss.length&&!on('d1')?'<li>Es fehlt noch: '+miss.map(function(c){return c[1];}).join(', ')+'</li>':'';
+  $('#ckToPlan').disabled=(q==='NO TRADE'||q==='B');
+  calc();
+}
+renderCheck();
+$('#checkGroups').addEventListener('change',verdict);
+$('#ckReset').addEventListener('click',function(){[].forEach.call(document.querySelectorAll('#checkGroups input'),function(x){x.checked=false;});verdict();});
+$('#ckToPlan').addEventListener('click',function(){
+  $('#riskPct').value=state.quality==='A'?'0.25':'0.5';calc();
+  document.getElementById('plan').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+});
+
+/* ================= Trade-Plan ================= */
+function num(id){return parseFloat(document.getElementById(id).value)||0;}
+function calc(){
+  var acc=num('acc'),pct=num('riskPct'),e=num('entryPx'),st=num('stopPx'),t1=num('tp1Px'),t2=num('tp2Px'),fee=num('feePct')/100,lev=Math.max(1,num('lev'));
+  var allowed=acc*pct/100,dist=Math.abs(e-st),long=st<e;
+  var perEth=dist+fee*(e+st),qty=perEth>0&&dist>0?allowed/perEth:0,val=qty*e,margin=val/lev;
+  var liq=long?e*(1-1/lev):e*(1+1/lev);
+  function R(tp){var rew=long?tp-e:e-tp;return {g:dist>0?rew/dist:0,n:perEth>0?(rew-fee*(e+tp))/perEth:0,ok:rew>0};}
+  var r1=R(t1),r2=R(t2);
+  $('#cDir').textContent=dist>0?(long?'Long · du kaufst':'Short · du verkaufst'):'Stop eingeben';
+  $('#cOut').innerHTML=dn(qty,3)+'<small>ETH</small>';
+  $('#cRisk').textContent=usd(qty*perEth)+' ('+dn(pct,2)+' %)';
+  $('#cVal').textContent=usd(val);
+  $('#cMargin').textContent=usd(margin)+' ('+dn(lev,0)+'×)';
+  $('#cLiq').textContent=lev<=1?'keine':pf(liq)+' $';
+  $('#cR1').textContent=f2(r1.g)+' · netto '+f2(r1.n);
+  $('#cR2').textContent=f2(r2.g)+' · netto '+f2(r2.n);
+  var w=[];
+  if(dist===0)w.push('Stop eingeben.');
+  if(dist>0&&(!r1.ok||!r2.ok))w.push('Ein Ziel liegt auf der falschen Seite vom Einstieg.');
+  if(lev>1&&dist>0&&(long?liq>=st:liq<=st))w.push('Liquidation käme vor dem Stop. Hebel senken.');
+  if(dist>0&&r2.ok&&r2.g<2)w.push('CRV bis TP2 unter 2 : 1. Laut Regel kein Trade.');
+  if(dist>0&&r2.ok&&r2.g>=2&&r2.n<1.5)w.push('Gebühren fressen viel vom Vorteil. Stop zu eng?');
+  if(margin>acc&&acc>0)w.push('Die Margin ist größer als dein Konto. Mit diesem Hebel geht die Position nicht.');
+  if(pct>0.5)w.push('Mehr als 0,5 % Risiko. Deine Regel sagt höchstens 0,5 %.');
+  if(state.touched&&state.quality==='A'&&pct>0.25)w.push('Note A: halbes Risiko nehmen (0,25 %).');
+  if(state.touched&&(state.quality==='B'||state.quality==='NO TRADE'))w.push('Note '+state.quality+' im Check: kein Trade.');
+  $('#cWarn').innerHTML=w.map(function(x){return '<li>'+x+'</li>';}).join('');
+  var q=state.touched?state.quality:'noch nicht bewertet';
+  var trig=$('#pTrig').value.trim()||'(noch eintragen)',inv=$('#pInv').value.trim()||'(noch eintragen)';
+  $('#planOut').textContent=[
+   'ETH TRADE-PLAN',
+   'Instrument: ETHUSDT Perpetual',
+   'Handelsplatz: '+$('#pEx').value,
+   'Richtung: '+(long?'LONG':'SHORT'),
+   'Setup: '+$('#pSetup').value,
+   'Qualität: '+q,
+   'Entry: '+pf(e),
+   'Trigger: '+trig,
+   'Stop Loss: '+pf(st),
+   'Take Profit 1: '+pf(t1),
+   'Take Profit 2: '+pf(t2),
+   'Risk Reward: TP1 '+f2(r1.g)+' : 1 · TP2 '+f2(r2.g)+' : 1 brutto · '+f2(r2.n)+' : 1 netto',
+   'Größe: '+dn(qty,3)+' ETH · Wert '+usd(val)+' · Hebel '+dn(lev,0)+'× · Margin '+usd(margin),
+   'Max. Verlust inkl. Gebühren: '+usd(qty*perEth)+' ('+dn(pct,2)+' %)',
+   'Invalidierung: '+inv
+  ].join('\n');
+}
+['acc','riskPct','entryPx','stopPx','tp1Px','tp2Px','feePct','lev','pTrig','pInv','pEx','pSetup'].forEach(function(id){document.getElementById(id).addEventListener('input',calc);document.getElementById(id).addEventListener('change',calc);});
+$('#copyPlan').addEventListener('click',function(){
+  var t=$('#planOut').textContent,msg=$('#copied');
+  function sel(){var r=document.createRange();r.selectNodeContents($('#planOut'));var s=window.getSelection();s.removeAllRanges();s.addRange(r);msg.textContent='Text markiert. Mit Strg+C kopieren.';}
+  try{navigator.clipboard.writeText(t).then(function(){msg.textContent='Kopiert.';},sel);}catch(e){sel();}
+});
+
+/* ================= Start ================= */
+renderPatterns();
+setStep(0);
+verdict();
+if(window.ResizeObserver){new ResizeObserver(function(){draw();}).observe(cv.parentElement);}else{window.addEventListener('resize',draw);}
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
+})();
+</script>
+
+</body>
+</html>
