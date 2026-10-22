@@ -2,7 +2,11 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<script>window.__newsFallback={"updated": "2026-10-22T07:55:33Z", "sources": [{"name": "Investing.com Wochenvorschau", "url": "https://www.investing.com/news/stock-market-news/us-economic-calendar-preview-key-releases-for-the-week-of-oct-1923-2026-93CH-4958178"}, {"name": "Federal Reserve Kalender", "url": "https://www.federalreserve.gov/newsevents/2026-october.htm"}, {"name": "BEA Termine", "url": "https://bea.gov/index.php/news/schedule"}, {"name": "BLS Termine", "url": "https://www.bls.gov/ces/publications/news-release-schedule.htm"}, {"name": "Admirals EZB", "url": "https://admiralmarkets.com/analytics/traders-blog/ecb-meeting-october-2026"}], "events": [{"t": "2026-10-22T12:30:00Z", "name": "Erstanträge Arbeitslosenhilfe", "land": "USA", "imp": 3, "prog": "Prognose 200K · vorher 199K", "note": "Wöchentliche Arbeitsmarktzahl. Bewegt ETH meist nur kurz.", "a": {"lbl": "Über Prognose", "dir": "long"}, "b": {"lbl": "Unter Prognose", "dir": "short"}}, {"t": "2026-10-23T13:45:00Z", "name": "Einkaufsmanagerindizes S&P Global (Okt., vorläufig)", "land": "USA", "imp": 4, "prog": "Dienstleistung: Prognose 58,0 · vorher 58,8 · Industrie: Prognose 55,5 · vorher 55,9", "note": "Stimmung in den Firmen. Starke Werte stützen Dollar und Zinsen.", "a": {"lbl": "Über Prognose", "dir": "short"}, "b": {"lbl": "Unter Prognose", "dir": "long"}}, {"t": "2026-10-23T14:00:00Z", "name": "Uni Michigan: Inflationserwartung 1 Jahr (Okt., final)", "land": "USA", "imp": 4, "prog": "Prognose 4,7 % · vorher 4,7 %", "note": "Steigende Inflationserwartung macht Zinssenkungen unwahrscheinlicher.", "a": {"lbl": "Über Prognose", "dir": "short"}, "b": {"lbl": "Unter Prognose", "dir": "long"}}, {"t": "2026-10-28T18:00:00Z", "name": "Fed-Zinsentscheid (FOMC)", "land": "USA", "imp": 10, "note": "Wichtigster Termin der Woche. Danach oft starke Ausschläge in beide Richtungen.", "a": {"lbl": "Lockerer als erwartet", "dir": "long"}, "b": {"lbl": "Härter als erwartet", "dir": "short"}}, {"t": "2026-10-28T18:30:00Z", "name": "Fed-Pressekonferenz", "land": "USA", "imp": 9, "note": "Der Ton des Fed-Chefs bewegt oft mehr als der Entscheid selbst.", "a": {"lbl": "Lockerer Ton", "dir": "long"}, "b": {"lbl": "Härterer Ton", "dir": "short"}}, {"t": "2026-10-29T12:30:00Z", "name": "BIP Q3 (erste Schätzung) + PCE-Inflation (Sept.)", "land": "USA", "imp": 8, "note": "Zwei wichtige Zahlen gleichzeitig. Für ETH zählt vor allem die PCE-Inflation, die Kennzahl, auf die die Fed schaut.", "a": {"lbl": "Inflation über Prognose", "dir": "short"}, "b": {"lbl": "Inflation unter Prognose", "dir": "long"}}, {"t": "2026-10-29T13:15:00Z", "name": "EZB-Zinsentscheid", "land": "Eurozone", "imp": 5, "note": "Für ETH weniger wichtig als die Fed. Pressekonferenz 30 Minuten später.", "a": {"lbl": "Lockerer als erwartet", "dir": "long"}, "b": {"lbl": "Härter als erwartet", "dir": "short"}}, {"t": "2026-11-06T13:30:00Z", "name": "Arbeitsmarktbericht (Okt.)", "land": "USA", "imp": 9, "prog": "Übliche Zeit 8:30 Uhr New York", "note": "Einer der größten Termine im Monat. Bewegt Dollar, Zinsen und Krypto stark.", "a": {"lbl": "Mehr Jobs als erwartet", "dir": "short"}, "b": {"lbl": "Weniger Jobs als erwartet", "dir": "long"}}]};</script>
+</head>
+<body>
 <title>Footprint-Playbook</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -253,21 +257,23 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .sbar-state{font-size:13px;color:var(--ink-2)}
 .sbar-state.hot{color:var(--accent)}
 .sbar a{margin-left:auto;font-size:13px;color:var(--ink-2)}
-.ex-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.ex-cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.exc .hrs{min-height:2.9em}
 .exc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:6px;align-content:start}
 .exc.on{border-color:color-mix(in srgb,var(--buy) 50%,var(--line))}
-.exc .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
-.exc b{font-family:var(--font-display);font-stretch:85%;font-size:22px;font-weight:700}
+.exc .top{display:grid;gap:2px}
+.exc b{font-family:var(--font-display);font-stretch:85%;font-size:21px;font-weight:700;white-space:nowrap}
 .exc .hrs{font-family:var(--font-mono);font-size:13px;color:var(--ink-2)}
 .exc .st{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
 .exc.on .st{color:var(--buy)} .exc:not(.on) .st{color:var(--ink-3)}
-.exc .cd{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:30px;font-weight:600;line-height:1.1}
+.exc .cd{font-family:var(--font-mono);font-variant-numeric:tabular-nums;font-size:26px;font-weight:600;line-height:1.1}
 .exc .cdl{font-size:13px;color:var(--ink-2)}
 .tl{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px;display:grid;gap:8px;overflow-x:auto}
 .tl-grid{position:relative;display:grid;grid-template-columns:96px minmax(480px,1fr);row-gap:8px;min-width:560px}
 .tl-lbl{font-size:13px;color:var(--ink-2);align-self:center}
 .tl-track{position:relative;height:22px;background:var(--bg);border-radius:4px}
 .tl-bar{position:absolute;top:0;bottom:0;border-radius:4px;background:color-mix(in srgb,var(--accept) 45%,transparent);border:1px solid var(--accept)}
+.tl-bar.asia{background:color-mix(in srgb,var(--zone) 35%,transparent);border-color:var(--zone)}
 .tl-bar.hot{background:color-mix(in srgb,var(--accent) 40%,transparent);border-color:var(--accent)}
 .tl-bar.news{width:3px;background:var(--sell);border:0;border-radius:1px}
 .tl-ticks{position:relative;height:16px;font-family:var(--font-mono);font-size:11px;color:var(--ink-3)}
@@ -276,7 +282,58 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .tl-now span{position:absolute;top:-2px;left:6px;font-family:var(--font-mono);font-size:11px;color:var(--ink);background:var(--panel);padding:0 3px;white-space:nowrap}
 .tl-notes{display:grid;gap:4px;font-size:14px;color:var(--ink-2)}
 .tl-notes b{color:var(--ink);font-weight:600}
-@media (max-width:960px){.ex-cards{grid-template-columns:1fr}.sbar a{display:none}}
+@media (max-width:960px){.ex-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.sbar a{display:none}}
+
+
+/* News-Leiste */
+.sbar-news{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 8px;display:flex;flex-wrap:wrap;gap:6px 12px;align-items:center;font-size:13px}
+.nw-tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--ink-3)}
+.nw-cd{font-family:var(--font-mono);font-variant-numeric:tabular-nums;color:var(--ink)}
+.nw-cd.lock{color:var(--sell);font-weight:600}
+.nw-name{color:var(--ink)}
+.nw-name small{color:var(--ink-3);font-size:12px;margin-left:4px}
+.imp{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-mono);font-size:12px;color:var(--ink-2)}
+.imp i{display:inline-flex;gap:2px}
+.imp i b{width:4px;height:10px;border-radius:1px;background:var(--line)}
+.imp.hi i b.f{background:var(--sell)} .imp.mid i b.f{background:var(--accent)} .imp.lo i b.f{background:var(--ink-3)}
+.nw-dir{color:var(--ink-2)}
+.nw-dir .up{color:var(--buy);font-weight:600} .nw-dir .dn{color:var(--sell);font-weight:600} .nw-dir .nt{color:var(--ink-2);font-weight:600}
+.nw-btn{margin-left:auto;font:inherit;font-size:12.5px;border:1px solid var(--line);background:var(--bg);color:var(--ink-2);border-radius:999px;padding:3px 10px;cursor:pointer}
+.nw-panel{max-width:1160px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 10px}
+.nw-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:8px;background:var(--bg);max-height:min(60vh,420px);overflow:auto}
+.nw-list li{display:grid;grid-template-columns:118px minmax(0,1fr) 120px;gap:4px 14px;padding:9px 12px;border-top:1px solid var(--line);font-size:13.5px;align-items:start}
+.nw-list li:first-child{border-top:0}
+.nw-list .when{font-family:var(--font-mono);font-size:12.5px;color:var(--ink-2)}
+.nw-list .what b{font-weight:600}
+.nw-list .what p{color:var(--ink-2);font-size:13px;margin-top:2px}
+.nw-list .what .prog{font-family:var(--font-mono);font-size:12px;color:var(--ink-3)}
+.nw-foot{font-size:12px;color:var(--ink-3);padding-top:6px}
+.nw-live{margin-top:10px;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--bg)}
+.nw-live .lbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.08em;color:var(--ink-3);padding:8px 12px;border-bottom:1px solid var(--line)}
+@media (max-width:620px){.nw-list li{grid-template-columns:1fr}.nw-btn{margin-left:0}.sbar{position:static}.nw-next{display:none}}
+/* Tagebuch */
+.jr-note{font-size:13.5px;color:var(--ink-3);margin-bottom:12px}
+.jr-tiles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.jr-tile{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;display:grid;gap:2px}
+.jr-tile span{font-size:13px;color:var(--ink-2)}
+.jr-tile b{font-family:var(--font-display);font-stretch:80%;font-size:34px;font-weight:800;line-height:1.05;font-variant-numeric:tabular-nums}
+.jr-tile b.pos{color:var(--buy)} .jr-tile b.neg{color:var(--sell)}
+.jr-split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.jr-split .tbl{min-width:0}
+.jr-hint{font-size:13px;color:var(--ink-3);margin:-4px 0 14px}
+.tbl.jr{min-width:900px}
+.tbl.jr td{vertical-align:middle}
+.tbl.jr td:first-child{font-weight:400;font-family:var(--font-mono);font-size:12.5px;color:var(--ink-2)}
+.tbl.jr select,.tbl.jr input{font:inherit;font-size:13.5px;padding:5px 8px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.tbl.jr input{width:76px;font-family:var(--font-mono)}
+.tbl.jr .num{font-family:var(--font-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.dirL{color:var(--buy);font-weight:600} .dirS{color:var(--sell);font-weight:600}
+.xbtn{font:inherit;font-size:12.5px;border:1px solid var(--line);background:transparent;color:var(--ink-3);border-radius:6px;padding:4px 8px;cursor:pointer}
+.xbtn.sure{color:var(--sell);border-color:var(--sell)}
+.jr-empty{padding:18px;font-size:14.5px;color:var(--ink-2)}
+.jr-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.jr-msg{font-size:13px;color:var(--buy)}
+@media (max-width:960px){.jr-tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.jr-split{grid-template-columns:1fr}}
 @media (max-width:960px){
   .gallery{grid-template-columns:1fr}
   .pat-list{display:flex;flex-wrap:wrap;gap:6px}
@@ -303,19 +360,20 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
-<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-</head>
-<body>
 
 <div class="sbar" id="sbar" aria-label="Börsenzeiten">
   <div class="sbar-in">
     <span class="sbar-clock">Deine Zeit <b id="sbClock">--:--:--</b></span>
+    <span class="chip" id="chip-sha"><i class="dot"></i><b>SHA</b><span>–</span></span>
+    <span class="chip" id="chip-hkg"><i class="dot"></i><b>HKG</b><span>–</span></span>
     <span class="chip" id="chip-fra"><i class="dot"></i><b>FRA</b><span>–</span></span>
     <span class="chip" id="chip-lon"><i class="dot"></i><b>LDN</b><span>–</span></span>
     <span class="chip" id="chip-nyc"><i class="dot"></i><b>NY</b><span>–</span></span>
     <span class="sbar-state" id="sbState"></span>
     <a href="#boerse">Details</a>
   </div>
+  <div class="sbar-news" id="nwBar" aria-live="polite"><span class="nw-tag">NEWS</span><span class="nw-name" id="nwEmpty">Termine werden geladen …</span></div>
+  <div class="nw-panel" id="nwPanel" hidden><ul class="nw-list" id="nwList"></ul><div class="nw-live" id="nwLive" hidden></div><p class="nw-foot" id="nwFoot"></p></div>
 </div>
 
 <div class="wrap">
@@ -332,12 +390,12 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
   </ol>
   <p class="notrade"><b>NO TRADE</b><span>Fehlt einer der vier Punkte, wartest du. Abwarten ist auch eine Entscheidung.</span></p>
   <nav class="toc" aria-label="Inhalt">
-    <a href="#boerse">Börsenzeiten</a><a href="#zeit">Zeitebenen</a><a href="#woerter">Wörter</a><a href="#muster">Muster</a><a href="#setups">Setups üben</a><a href="#check">Bewerten</a><a href="#plan">Trade-Plan</a><a href="#spick">Spickzettel</a>
+    <a href="#boerse">Börsenzeiten</a><a href="#zeit">Zeitebenen</a><a href="#woerter">Wörter</a><a href="#muster">Muster</a><a href="#setups">Setups üben</a><a href="#check">Bewerten</a><a href="#plan">Trade-Plan</a><a href="#tagebuch">Tagebuch</a><a href="#spick">Spickzettel</a>
   </nav>
 </header>
 
 <section id="boerse">
-  <div class="sec-head"><p class="kicker">Live</p><h2>Börsenzeiten</h2><p>ETH handelt rund um die Uhr. Der meiste Umsatz kommt aber, wenn diese Börsen offen sind. Dann ist auch der Footprint am aussagekräftigsten.</p></div>
+  <div class="sec-head"><p class="kicker">Live</p><h2>Börsenzeiten</h2><p>ETH handelt rund um die Uhr. Der meiste Umsatz kommt aber, wenn diese Börsen offen sind. Dann ist auch der Footprint am aussagekräftigsten. Asien läuft nachts, Europa und New York am Tag.</p></div>
   <div class="ex-cards" id="exCards"></div>
   <div class="tl">
     <div class="tl-grid" id="tlGrid"></div>
@@ -474,10 +532,24 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
       <p class="trade-foot">Liquidation ohne Wartungsmarge gerechnet; die echte liegt etwas näher. In der Börse prüfen. Gebühr ist eine Annahme (Taker), Slippage kommt noch dazu.</p>
     </div>
     <div class="plan-text">
-      <div class="row"><span class="kicker">Fertiger Plan</span><button type="button" class="btn" id="copyPlan">Plan kopieren</button><span class="copied" id="copied" aria-live="polite"></span></div>
+      <div class="row"><span class="kicker">Fertiger Plan</span><button type="button" class="btn" id="copyPlan">Plan kopieren</button><button type="button" class="btn primary" id="saveJournal">Ins Tagebuch speichern</button><span class="copied" id="copied" aria-live="polite"></span></div>
       <pre id="planOut" tabindex="0"></pre>
     </div>
   </div>
+</section>
+
+<section id="tagebuch">
+  <div class="sec-head"><p class="kicker">Teil 5 · Lernen</p><h2>Dein Trading-Tagebuch</h2><p>Jeden Plan speichern, später das Ergebnis eintragen. So siehst du, welche Setups und Uhrzeiten bei dir funktionieren.</p></div>
+  <p class="jr-note" id="jrNote">Tagebuch wird geladen …</p>
+  <div id="jrStats"></div>
+  <div class="tbl-wrap">
+    <table class="tbl jr">
+      <thead><tr><th>Datum</th><th>Zeit</th><th>Setup</th><th>Richtung</th><th>Note</th><th>Einstieg / Stop</th><th>CRV TP2</th><th>Status</th><th>Ergebnis (R)</th><th></th></tr></thead>
+      <tbody id="jrBody"></tbody>
+    </table>
+    <div class="jr-empty" id="jrEmpty">Noch keine Trades. Füll oben den Trade-Plan aus und klick „Ins Tagebuch speichern“.</div>
+  </div>
+  <div class="jr-row"><button type="button" class="btn" id="jrCsv">Als CSV kopieren</button><span class="jr-msg" id="jrMsg" aria-live="polite"></span></div>
 </section>
 
 <section id="spick">
@@ -1269,6 +1341,13 @@ function calc(){
    'Invalidierung: '+inv
   ].join('\n');
 }
+window.__playbookPlan=function(){
+  var e=num('entryPx'),st=num('stopPx'),t2=num('tp2Px'),acc=num('acc'),pct=num('riskPct'),fee=num('feePct')/100,dist=Math.abs(e-st);
+  var perEth=dist+fee*(e+st),qty=perEth>0&&dist>0?acc*pct/100/perEth:0,long=st<e;
+  return {exchange:$('#pEx').value,setup:$('#pSetup').value,dir:long?'LONG':'SHORT',quality:state.touched?state.quality:'–',
+    entry:e,stop:st,tp1:num('tp1Px'),tp2:t2,qty:Math.round(qty*1000)/1000,riskUsd:Math.round(qty*perEth*100)/100,riskPct:pct,
+    rr2:dist>0?Math.round(((long?t2-e:e-t2)/dist)*100)/100:0,trigger:$('#pTrig').value.trim(),invalid:$('#pInv').value.trim(),valid:dist>0};
+};
 ['acc','riskPct','entryPx','stopPx','tp1Px','tp2Px','feePct','lev','pTrig','pInv','pEx','pSetup'].forEach(function(id){document.getElementById(id).addEventListener('input',calc);document.getElementById(id).addEventListener('change',calc);});
 $('#copyPlan').addEventListener('click',function(){
   var t=$('#planOut').textContent,msg=$('#copied');
@@ -1287,10 +1366,13 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(draw);
 /* ================= Börsenzeiten ================= */
 (function(){
 var EX=[
- {id:'fra',name:'Frankfurt',full:'Xetra Frankfurt',tz:'Europe/Berlin',o:[9,0],c:[17,30]},
- {id:'lon',name:'London',full:'London Stock Exchange',tz:'Europe/London',o:[8,0],c:[16,30]},
- {id:'nyc',name:'New York',full:'NYSE / Nasdaq',tz:'America/New_York',o:[9,30],c:[16,0]}
+ {id:'sha',name:'Shanghai',full:'Shanghai Stock Exchange',tz:'Asia/Shanghai',parts:[[[9,30],[11,30]],[[13,0],[15,0]]],asia:true},
+ {id:'hkg',name:'Hongkong',full:'HKEX Hongkong',tz:'Asia/Hong_Kong',parts:[[[9,30],[12,0]],[[13,0],[16,0]]],asia:true},
+ {id:'fra',name:'Frankfurt',full:'Xetra Frankfurt',tz:'Europe/Berlin',parts:[[[9,0],[17,30]]]},
+ {id:'lon',name:'London',full:'London Stock Exchange',tz:'Europe/London',parts:[[[8,0],[16,30]]]},
+ {id:'nyc',name:'New York',full:'NYSE / Nasdaq',tz:'America/New_York',parts:[[[9,30],[16,0]]]}
 ];
+function byId(id){for(var i=0;i<EX.length;i++)if(EX[i].id===id)return EX[i];}
 var fmtCache={};
 function parts(ts,tz){
   var f=fmtCache[tz]||(fmtCache[tz]=new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric',second:'numeric',weekday:'short'}));
@@ -1299,7 +1381,10 @@ function parts(ts,tz){
 }
 function offset(ts,tz){var p=parts(ts,tz);return Date.UTC(p.y,p.m-1,p.d,p.h,p.mi,p.s)-Math.floor(ts/1000)*1000;}
 function zoned(y,m,d,h,mi,tz){var g=Date.UTC(y,m-1,d,h,mi);var t=g-offset(g,tz);return g-offset(t,tz);}
-function session(ex,y,m,d){return {o:zoned(y,m,d,ex.o[0],ex.o[1],ex.tz),c:zoned(y,m,d,ex.c[0],ex.c[1],ex.tz)};}
+function session(ex,y,m,d){
+  var ps=ex.parts.map(function(pp){return {o:zoned(y,m,d,pp[0][0],pp[0][1],ex.tz),c:zoned(y,m,d,pp[1][0],pp[1][1],ex.tz)};});
+  return {o:ps[0].o,c:ps[ps.length-1].c,parts:ps};
+}
 function hm(ts){return new Date(ts).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
 function dur(ms){
   var t=Math.max(0,Math.floor(ms/1000)),d=Math.floor(t/86400),h=Math.floor(t%86400/3600),m=Math.floor(t%3600/60),s=t%60;
@@ -1308,10 +1393,16 @@ function dur(ms){
 }
 function statusOf(ex,now){
   var p=parts(now,ex.tz),wd=p.wd;
-  if(wd>=1&&wd<=5){var s=session(ex,p.y,p.m,p.d);if(now>=s.o&&now<s.c)return {open:true,until:s.c,s:s};if(now<s.o)return {open:false,next:s.o,s:s};}
-  for(var k=1;k<=7;k++){var dt=new Date(Date.UTC(p.y,p.m-1,p.d+k)),w=dt.getUTCDay();if(w>=1&&w<=5){var s2=session(ex,dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());return {open:false,next:s2.o,s:s2};}}
+  if(wd>=1&&wd<=5){
+    var s=session(ex,p.y,p.m,p.d);
+    for(var i=0;i<s.parts.length;i++){var q=s.parts[i];
+      if(now>=q.o&&now<q.c)return {open:true,until:q.c,last:i===s.parts.length-1,s:s};
+      if(now<q.o)return {open:false,next:q.o,pause:i>0,s:s};}
+  }
+  for(var k=1;k<=7;k++){var dt=new Date(Date.UTC(p.y,p.m-1,p.d+k)),w=dt.getUTCDay();if(w>=1&&w<=5){var s2=session(ex,dt.getUTCFullYear(),dt.getUTCMonth()+1,dt.getUTCDate());return {open:false,next:s2.o,pause:false,s:s2};}}
 }
 function localDay(now){var d=new Date(now);var a=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime();var b=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1).getTime();return {a:a,b:b,y:d.getFullYear(),m:d.getMonth()+1,d:d.getDate(),wd:d.getDay()};}
+function hrs(s){return s.parts.map(function(q){return hm(q.o)+'–'+hm(q.c);}).join('<br>');}
 var built=false;
 function buildTimeline(now){
   var day=localDay(now),span=day.b-day.a,g=document.getElementById('tlGrid'),notes=document.getElementById('tlNotes');
@@ -1319,8 +1410,8 @@ function buildTimeline(now){
   var weekday=day.wd>=1&&day.wd<=5,h='',ses={};
   EX.forEach(function(ex){
     ses[ex.id]=session(ex,day.y,day.m,day.d);
-    var s=ses[ex.id];
-    h+='<div class="tl-lbl">'+ex.name+'</div><div class="tl-track">'+(weekday?'<div class="tl-bar" style="left:'+pct(s.o)+'%;width:'+(pct(s.c)-pct(s.o))+'%" title="'+hm(s.o)+'–'+hm(s.c)+'"></div>':'')+'</div>';
+    var bars=weekday?ses[ex.id].parts.map(function(q){return '<div class="tl-bar'+(ex.asia?' asia':'')+'" style="left:'+pct(q.o)+'%;width:'+(pct(q.c)-pct(q.o))+'%" title="'+hm(q.o)+'–'+hm(q.c)+'"></div>';}).join(''):'';
+    h+='<div class="tl-lbl">'+ex.name+'</div><div class="tl-track">'+bars+'</div>';
   });
   var ovA=Math.max(ses.lon.o,ses.nyc.o),ovB=Math.min(ses.lon.c,ses.nyc.c),news=zoned(day.y,day.m,day.d,8,30,'America/New_York');
   h+='<div class="tl-lbl">Hauptzeit</div><div class="tl-track">'+(weekday&&ovB>ovA?'<div class="tl-bar hot" style="left:'+pct(ovA)+'%;width:'+(pct(ovB)-pct(ovA))+'%"></div>':'')+(weekday?'<div class="tl-bar news" style="left:'+pct(news)+'%" title="US-Daten oft um '+hm(news)+'"></div>':'')+'</div>';
@@ -1329,13 +1420,15 @@ function buildTimeline(now){
   h+='<div class="tl-now" id="tlNow"><span id="tlNowL"></span></div>';
   g.innerHTML=h;
   var off=(offset(now,'Europe/Berlin')-offset(now,'America/New_York'))/3600000;
+  var euOpen=Math.min(ses.fra.o,ses.lon.o),hkC=ses.hkg.c,asOv=hkC-euOpen;
   var n=[];
   if(weekday){
     n.push('<span><b>Hauptzeit '+hm(ovA)+'–'+hm(ovB)+'</b>: London und New York gleichzeitig offen. Meister Umsatz, klarste Footprints.</span>');
+    n.push('<span><b>Asien</b> handelt nachts ('+hm(ses.hkg.o)+'–'+hm(hkC)+' mit Mittagspause). '+(asOv>0?'Hongkong überschneidet sich heute '+Math.round(asOv/60000)+' Minuten mit Europa ('+hm(euOpen)+'–'+hm(hkC)+').':'Keine Überschneidung mit Europa: Hongkong schließt, wenn Europa öffnet.')+' Das Asien-Hoch und -Tief ist oft die erste Liquidität am Morgen.</span>');
     n.push('<span><b>US-Daten oft um '+hm(news)+'</b> (rote Linie). Davor 15 Minuten kein neuer Trade. Prüf den Wirtschaftskalender.</span>');
   }else n.push('<span><b>Wochenende:</b> alle Börsen zu. ETH läuft weiter, aber mit wenig Umsatz.</span>');
   if(off===5)n.push('<span><b>Zeitumstellung:</b> Europa hat schon umgestellt, die USA noch nicht. New York öffnet darum eine Stunde früher als sonst.</span>');
-  n.push('<span>Alle Zeiten in deiner Zeitzone. Feiertage sind nicht eingerechnet.</span>');
+  n.push('<span>Alle Zeiten in deiner Zeitzone. China und Hongkong haben keine Zeitumstellung, darum verschieben sich ihre Zeiten bei dir im Winter um eine Stunde. Feiertage sind nicht eingerechnet.</span>');
   notes.innerHTML=n.join('');
   built=day.a;
 }
@@ -1343,26 +1436,175 @@ function tick(){
   var now=Date.now(),day=localDay(now);
   if(built!==day.a)buildTimeline(now);
   document.getElementById('sbClock').textContent=new Date(now).toLocaleTimeString('de-DE');
-  var cards='',openN=0,st={};
+  var cards='',st={};
   EX.forEach(function(ex){
-    var r=statusOf(ex,now);st[ex.id]=r;if(r.open)openN++;
+    var r=statusOf(ex,now);st[ex.id]=r;
     var chip=document.getElementById('chip-'+ex.id);
     chip.className='chip'+(r.open?' on':'');
-    chip.lastElementChild.textContent=r.open?'noch '+dur(r.until-now):'öffnet in '+dur(r.next-now);
+    chip.lastElementChild.textContent=r.open?'noch '+dur(r.until-now):(r.pause?'Pause, weiter in ':'öffnet in ')+dur(r.next-now);
     var sameDay=new Date(r.next||r.until).toDateString()===new Date(now).toDateString();
-    var nextLbl=r.open?'schließt um '+hm(r.until):'öffnet '+(sameDay?'um ':new Date(r.next).toLocaleDateString('de-DE',{weekday:'long'})+' um ')+hm(r.next);
-    cards+='<div class="exc'+(r.open?' on':'')+'"><div class="top"><b>'+ex.name+'</b><span class="st">'+(r.open?'offen':'geschlossen')+'</span></div>'+
-      '<span class="hrs">'+ex.full+' · '+hm(r.s.o)+'–'+hm(r.s.c)+'</span>'+
+    var nextLbl=r.open?(r.last?'schließt um ':'Mittagspause ab ')+hm(r.until):(r.pause?'Mittagspause, weiter um ':'öffnet '+(sameDay?'um ':new Date(r.next).toLocaleDateString('de-DE',{weekday:'long'})+' um '))+hm(r.next);
+    cards+='<div class="exc'+(r.open?' on':'')+'"><div class="top"><b>'+ex.name+'</b><span class="st">'+(r.open?'offen':(r.pause?'Mittagspause':'geschlossen'))+'</span></div>'+
+      '<span class="hrs" title="'+ex.full+'">'+hrs(r.s)+'</span>'+
       '<span class="cd">'+dur((r.open?r.until:r.next)-now)+'</span><span class="cdl">'+nextLbl+'</span></div>';
   });
   document.getElementById('exCards').innerHTML=cards;
   var stEl=document.getElementById('sbState'),both=st.lon.open&&st.nyc.open;
-  stEl.textContent=both?'Hauptzeit: London + New York':(st.nyc.open?'New York offen':((st.fra.open||st.lon.open)?'Europa offen':'Ruhige Zeit: wenig Umsatz'));
+  stEl.textContent=both?'Hauptzeit: London + New York':(st.nyc.open?'New York offen':((st.fra.open||st.lon.open)?'Europa offen':((st.sha.open||st.hkg.open)?'Asien offen':'Ruhige Zeit: wenig Umsatz')));
   stEl.className='sbar-state'+(both?' hot':'');
   var p=(now-day.a)/(day.b-day.a)*100,nowEl=document.getElementById('tlNow');
   if(nowEl){nowEl.style.left='calc(96px + (100% - 96px) * '+(p/100).toFixed(5)+')';document.getElementById('tlNowL').textContent='jetzt '+hm(now);}
 }
+window.__sessionLabel=function(){
+  var now=Date.now(),wd=new Date(now).getDay();
+  if(wd===0||wd===6)return 'Wochenende';
+  var l=statusOf(byId('lon'),now).open,n=statusOf(byId('nyc'),now).open,f=statusOf(byId('fra'),now).open,as=statusOf(byId('hkg'),now).open||statusOf(byId('sha'),now).open;
+  return l&&n?'Hauptzeit':(n?'New York':((f||l)?'Europa':(as?'Asien':'Ruhige Zeit')));
+};
 tick();setInterval(tick,1000);
+})();
+
+
+/* ================= News-Leiste ================= */
+(function(){
+var data=null,open=false,fileMode=false,liveLoaded=false;
+function $(s){return document.querySelector(s);}
+function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML;}
+function hm(ts){return new Date(ts).toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'});}
+function day(ts){var d=new Date(ts),n=new Date();var a=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime(),b=new Date(d.getFullYear(),d.getMonth(),d.getDate()).getTime(),k=Math.round((b-a)/864e5);return k===0?'Heute':(k===1?'Morgen':d.toLocaleDateString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit'}));}
+function dur(ms){var t=Math.max(0,Math.floor(ms/1000)),d=Math.floor(t/86400),h=Math.floor(t%86400/3600),m=Math.floor(t%3600/60),s=t%60;function z(n){return (n<10?'0':'')+n;}return d>0?d+' T '+h+' Std':h+':'+z(m)+':'+z(s);}
+function impH(n){n=Math.max(1,Math.min(10,Math.round(n||0)));var c=n>=8?'hi':(n>=5?'mid':'lo'),b='';for(var i=1;i<=10;i++)b+='<b'+(i<=n?' class="f"':'')+'></b>';return '<span class="imp '+c+'" title="Wichtigkeit '+n+' von 10"><i>'+b+'</i>'+n+'/10</span>';}
+function dirH(x){if(!x)return '';var c=x.dir==='long'?'up':(x.dir==='short'?'dn':'nt'),w=x.dir==='long'?'Long':(x.dir==='short'?'Short':'unklar');return esc(x.lbl)+' <span class="'+c+'">'+(x.dir==='long'?'↑ ':(x.dir==='short'?'↓ ':''))+w+'</span>';}
+function upcoming(){var now=Date.now();return ((data&&data.events)||[]).map(function(e){return Object.assign({ts:Date.parse(e.t)},e);}).filter(function(e){return !isNaN(e.ts)&&e.ts>now-45*60000;}).sort(function(a,b){return a.ts-b.ts;});}
+function renderBar(){
+  var bar=$('#nwBar'),ev=upcoming(),now=Date.now();
+  if(!data){return;}
+  if(!ev.length){bar.innerHTML='<span class="nw-tag">NEWS</span><span class="nw-name">'+(fileMode?'Keine eingebauten Termine mehr. Der Live-Kalender ist aktuell.':'Keine wichtigen Termine eingetragen.')+'</span><button type="button" class="nw-btn" id="nwToggle" aria-expanded="'+open+'" aria-controls="nwPanel">'+(open?'Schließen':(fileMode?'Live-Kalender':'Alle Termine'))+'</button>';return;}
+  var e=ev[0],dt=e.ts-now,lock=dt<=15*60000&&dt>-15*60000,past=dt<=0;
+  var cd=past?(dt>-15*60000?'Finger weg: gerade raus':'gerade veröffentlicht'):(lock?'Finger weg · in '+dur(dt):'in '+dur(dt));
+  var h='<span class="nw-tag">NEWS</span><span class="nw-cd'+(lock?' lock':'')+'">'+cd+'</span>'+
+    '<span class="nw-name">'+day(e.ts)+' '+hm(e.ts)+' · '+esc(e.name)+'<small>'+esc(e.land||'')+'</small></span>'+impH(e.imp)+
+    '<span class="nw-dir">'+dirH(e.a)+(e.b?' · '+dirH(e.b):'')+'</span>';
+  var big=ev.filter(function(x,i){return i>0&&x.imp>=8;})[0];
+  if(big)h+='<span class="nw-dir nw-next">Danach groß: '+day(big.ts)+' '+hm(big.ts)+' '+esc(big.name)+' ('+big.imp+'/10)</span>';
+  h+='<button type="button" class="nw-btn" id="nwToggle" aria-expanded="'+open+'" aria-controls="nwPanel">'+(open?'Schließen':'Alle Termine')+'</button>';
+  bar.innerHTML=h;
+}
+function renderPanel(){
+  var ev=upcoming();
+  $('#nwList').innerHTML=ev.map(function(e){
+    return '<li><span class="when">'+day(e.ts)+' '+hm(e.ts)+'</span><span class="what"><b>'+esc(e.name)+'</b> <small style="color:var(--ink-3)">'+esc(e.land||'')+'</small>'+(e.prog?'<br><span class="prog">'+esc(e.prog)+'</span>':'')+'<p>'+esc(e.note||'')+'</p><p class="nw-dir">'+dirH(e.a)+(e.b?' · '+dirH(e.b):'')+'</p></span>'+impH(e.imp)+'</li>';
+  }).join('')||'<li><span class="what">Keine Termine.</span></li>';
+  var up=data&&data.updated?new Date(data.updated).toLocaleString('de-DE',{weekday:'short',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}):'–';
+  if(fileMode&&!liveLoaded){liveLoaded=true;var box=$('#nwLive');box.hidden=false;box.innerHTML='<div class="lbl">LIVE-KALENDER VON TRADINGVIEW · USA, EUROZONE, CHINA · NUR WICHTIGE TERMINE</div><div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div></div>';var sc=document.createElement('script');sc.src='https://s3.tradingview.com/external-embedding/embed-widget-events.js';sc.async=true;sc.textContent=JSON.stringify({colorTheme:'dark',isTransparent:true,width:'100%',height:420,locale:'de_DE',importanceFilter:'0,1',countryFilter:'us,eu,cn'});box.querySelector('.tradingview-widget-container').appendChild(sc);}
+  $('#nwFoot').innerHTML=(fileMode?'Eingebaute Termine mit Bewertung: Stand '+esc(up)+'. Der Live-Kalender darunter kommt direkt von TradingView, braucht Internet und ist immer aktuell, aber ohne Long/Short-Einschätzung. ':'Stand: '+esc(up)+'. ')+'Wichtigkeit und Richtung sind eine Einschätzung, keine Vorhersage. „Über Prognose“ heißt: die Zahl ist höher als erwartet. Kurz vor und nach jedem Termin (±15 Minuten) kein neuer Trade.'+(data&&data.sources&&data.sources.length?' Quellen: '+data.sources.map(function(u){return '<a href="'+esc(u.url)+'" target="_blank" rel="noopener">'+esc(u.name)+'</a>';}).join(', '):'');
+}
+document.addEventListener('click',function(e){if(e.target&&e.target.id==='nwToggle'){open=!open;$('#nwPanel').hidden=!open;if(open)renderPanel();renderBar();}});
+setInterval(function(){renderBar();},1000);
+(async function(){
+  var db=null;
+  try{if(window.claude&&window.claude.use)db=await window.claude.use('db');}catch(e){}
+  if(!db){fileMode=true;data=window.__newsFallback||{events:[]};renderBar();return;}
+  db.doc('news/current').onSnapshot(function(snap){
+    data=snap.exists?snap.data():{events:[]};renderBar();if(open)renderPanel();
+  },function(){$('#nwBar').innerHTML='<span class="nw-tag">NEWS</span><span class="nw-name">Termine gerade nicht erreichbar. Seite neu laden.</span>';});
+})();
+})();
+
+/* ================= Tagebuch ================= */
+(function(){
+var LSKEY='pb-journal-v1',rows=[],store=null,mem=[];
+function $(s){return document.querySelector(s);}
+function f2(v){return (v==null||isNaN(v))?'–':Number(v).toLocaleString('de-DE',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function esc(t){var d=document.createElement('div');d.textContent=t==null?'':String(t);return d.innerHTML;}
+var STATUS=[['offen','Offen'],['gewinn','Gewinn'],['verlust','Verlust'],['be','Break-even']];
+function localStore(){
+  function read(){try{return JSON.parse(localStorage.getItem(LSKEY)||'[]');}catch(e){return mem;}}
+  function write(a){mem=a;try{localStorage.setItem(LSKEY,JSON.stringify(a));}catch(e){}}
+  var cb=null;
+  return {kind:'local',
+    sub:function(f){cb=f;f(read().sort(function(a,b){return a.created<b.created?1:-1;}));},
+    add:function(o){var a=read();a.push(o);write(a);cb&&this.sub(cb);return Promise.resolve();},
+    upd:function(id,p){var a=read();a.forEach(function(r){if(r.id===id)for(var k in p)r[k]=p[k];});write(a);cb&&this.sub(cb);return Promise.resolve();},
+    del:function(id){write(read().filter(function(r){return r.id!==id;}));cb&&this.sub(cb);return Promise.resolve();}};
+}
+function dbStore(db,uid){
+  var col=db.doc('data/users/'+uid+'/journal').collection('trades');
+  return {kind:'db',
+    sub:function(f){col.orderBy('created','desc').limit(1000).onSnapshot(function(snap){f(snap.docs.map(function(d){var o=Object.assign({},d.data());o.id=d.id;return o;}));},function(e){note('Tagebuch gerade nicht erreichbar ('+e.code+'). Seite neu laden.');});},
+    add:function(o){var c=Object.assign({},o);delete c.id;return col.doc(o.id).set(c);},
+    upd:function(id,p){return col.doc(id).update(p);},
+    del:function(id){return col.doc(id).delete();}};
+}
+function note(t){$('#jrNote').textContent=t;}
+function msg(t){var m=$('#jrMsg');m.textContent=t;clearTimeout(msg._t);msg._t=setTimeout(function(){m.textContent='';},4000);}
+function grp(list,key){var g={};list.forEach(function(r){var k=r[key]||'–';(g[k]=g[k]||[]).push(r);});return g;}
+function statOf(list){var n=list.length,w=list.filter(function(r){return (r.resultR||0)>0;}).length,sum=list.reduce(function(s,r){return s+(Number(r.resultR)||0);},0);return {n:n,wr:n?w/n*100:0,avg:n?sum/n:0,sum:sum};}
+function cls(v){return v>0?'pos':(v<0?'neg':'');}
+function renderStats(){
+  var closed=rows.filter(function(r){return r.status&&r.status!=='offen'&&r.resultR!=null&&r.resultR!=='';}),open=rows.filter(function(r){return !r.status||r.status==='offen';}).length;
+  var t=statOf(closed);
+  if(!rows.length){$('#jrStats').innerHTML='';return;}
+  function table(title,g){
+    var keys=Object.keys(g).sort();
+    return '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>'+title+'</th><th>Trades</th><th>Treffer</th><th>Ø R</th><th>Summe R</th></tr></thead><tbody>'+
+      (keys.length?keys.map(function(k){var s=statOf(g[k]);return '<tr><td>'+esc(k)+'</td><td>'+s.n+'</td><td>'+Math.round(s.wr)+' %</td><td class="num">'+f2(s.avg)+'</td><td class="num">'+f2(s.sum)+'</td></tr>';}).join(''):'<tr><td colspan="5">Noch keine abgeschlossenen Trades.</td></tr>')+'</tbody></table></div>';
+  }
+  $('#jrStats').innerHTML='<div class="jr-tiles">'+
+    '<div class="jr-tile"><span>Abgeschlossen · offen</span><b>'+t.n+' · '+open+'</b></div>'+
+    '<div class="jr-tile"><span>Trefferquote</span><b>'+(t.n?Math.round(t.wr)+' %':'–')+'</b></div>'+
+    '<div class="jr-tile"><span>Ø Ergebnis</span><b class="'+cls(t.avg)+'">'+(t.n?f2(t.avg)+' R':'–')+'</b></div>'+
+    '<div class="jr-tile"><span>Summe</span><b class="'+cls(t.sum)+'">'+(t.n?f2(t.sum)+' R':'–')+'</b></div></div>'+
+    '<p class="jr-hint">'+(t.n<20?'Unter 20 abgeschlossenen Trades sind das nur erste Hinweise, noch keine Statistik.':'Ab hier lohnt der Vergleich: Welche Setups und Uhrzeiten bringen dir Plus?')+' 1 R = dein geplanter Verlust bis zum Stop.</p>'+
+    '<div class="jr-split">'+table('Setup',grp(closed,'setup'))+table('Uhrzeit',grp(closed,'session'))+'</div>';
+}
+function render(){
+  var body=$('#jrBody');
+  $('#jrEmpty').hidden=rows.length>0;
+  body.innerHTML=rows.map(function(r){
+    var opts=STATUS.map(function(s){return '<option value="'+s[0]+'"'+(r.status===s[0]?' selected':'')+'>'+s[1]+'</option>';}).join('');
+    return '<tr data-id="'+esc(r.id)+'"><td>'+esc(r.date)+'</td><td class="num">'+esc(r.time)+' <span style="color:var(--ink-3)">'+esc(r.session)+'</span></td><td>'+esc(r.setup)+'</td><td class="'+(r.dir==='LONG'?'dirL':'dirS')+'">'+esc(r.dir)+'</td><td>'+esc(r.quality)+'</td>'+
+      '<td class="num">'+f2(r.entry)+' / '+f2(r.stop)+'</td><td class="num">'+f2(r.rr2)+'</td>'+
+      '<td><select aria-label="Status" data-f="status">'+opts+'</select></td>'+
+      '<td><input type="number" step="0.1" inputmode="decimal" aria-label="Ergebnis in R" data-f="resultR" value="'+(r.resultR==null?'':esc(r.resultR))+'" placeholder="z. B. 2"></td>'+
+      '<td><button type="button" class="xbtn" data-del="1">Löschen</button></td></tr>';
+  }).join('');
+  renderStats();
+}
+$('#jrBody').addEventListener('change',function(e){
+  var el=e.target,tr=el.closest('tr');if(!tr||!el.dataset.f||!store)return;var id=tr.dataset.id,p={};
+  if(el.dataset.f==='status'){p.status=el.value;var inp=tr.querySelector('input[data-f="resultR"]');
+    if(el.value==='verlust'&&inp.value===''){p.resultR=-1;}else if(el.value==='be'&&inp.value===''){p.resultR=0;}else if(el.value==='offen'){p.resultR=null;}}
+  else{var v=el.value.replace(',','.');p.resultR=v===''?null:Number(v);if(p.resultR!==null&&isNaN(p.resultR))return;}
+  store.upd(id,p).then(function(){msg('Gespeichert.');},function(){msg('Speichern fehlgeschlagen.');});
+});
+$('#jrBody').addEventListener('click',function(e){
+  var b=e.target.closest('[data-del]');if(!b||!store)return;
+  if(!b.classList.contains('sure')){b.classList.add('sure');b.textContent='Wirklich?';setTimeout(function(){b.classList.remove('sure');b.textContent='Löschen';},3000);return;}
+  store.del(b.closest('tr').dataset.id).then(function(){msg('Gelöscht.');});
+});
+$('#saveJournal').addEventListener('click',function(){
+  if(!store){msg('Tagebuch noch nicht bereit.');return;}
+  var p=window.__playbookPlan&&window.__playbookPlan();if(!p||!p.valid){$('#copied').textContent='Erst Einstieg und Stop eintragen.';return;}
+  var now=new Date(),pad=function(n){return (n<10?'0':'')+n;};
+  var o=Object.assign({},p);delete o.valid;
+  o.id='t'+now.getTime();o.created=now.toISOString();o.date=pad(now.getDate())+'.'+pad(now.getMonth()+1)+'.'+now.getFullYear();o.time=pad(now.getHours())+':'+pad(now.getMinutes());
+  o.session=window.__sessionLabel?window.__sessionLabel():'–';o.status='offen';o.resultR=null;
+  store.add(o).then(function(){$('#copied').textContent='Im Tagebuch gespeichert.';},function(e){$('#copied').textContent='Speichern fehlgeschlagen'+(e&&e.code==='quota_exceeded'?': Tagebuch ist voll.':'.');});
+});
+$('#jrCsv').addEventListener('click',function(){
+  var cols=['date','time','session','exchange','setup','dir','quality','entry','stop','tp1','tp2','rr2','qty','riskUsd','status','resultR','trigger','invalid'];
+  var csv=[cols.join(';')].concat(rows.map(function(r){return cols.map(function(c){var v=r[c]==null?'':String(r[c]);return /[;"\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(';');})).join('\n');
+  try{navigator.clipboard.writeText(csv).then(function(){msg('CSV kopiert ('+rows.length+' Trades).');},function(){msg('Kopieren nicht möglich.');});}catch(e){msg('Kopieren nicht möglich.');}
+});
+function start(s,txt){store=s;note(txt);store.sub(function(list){rows=list;render();});}
+render();
+(async function(){
+  var db=null,uid=null;
+  try{if(window.claude&&window.claude.use){var u=await window.claude.use('user');db=await window.claude.use('db');uid=u?await u.id():null;}}catch(e){}
+  if(db&&uid)start(dbStore(db,uid),'Dauerhaft und privat gespeichert. Nur du siehst deine Trades.');
+  else start(localStore(),'Gespeichert nur in diesem Browser. Für ein dauerhaftes Tagebuch die Seite auf claude.ai öffnen.');
+})();
 })();
 </script>
 
